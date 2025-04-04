@@ -2,7 +2,7 @@
 
 ## Technology Stack
 - Unity 6000.0.37f1 LTS
-- Photon Fusion (for networking)
+- Photon Fusion 2 (Shared Mode) for networking
 - HOTween v2 (DOTween) (for animations)
 - TextMeshPro (for UI text)
 
@@ -194,7 +194,7 @@ public class GameUI : MonoBehaviour
 
 ### Phase 1: Core Setup (Week 1)
 1. Project structure setup
-2. PUN integration
+2. Fusion integration
 3. Basic networking system
 4. Scene management
 
@@ -231,9 +231,9 @@ public class GameUI : MonoBehaviour
 ## Best Practices
 
 ### Network Optimization
-1. Use PUN's built-in room properties for game state
+1. Use Fusion's built-in state synchronization
 2. Minimize RPCs by batching updates
-3. Use PhotonView observers wisely
+3. Use Networked properties wisely
 4. Implement proper fallbacks for network issues
 
 ### Unity Best Practices
@@ -254,7 +254,6 @@ namespace BingoGame
     namespace Utils { }
 }
 ```
-
 2. Dependency injection where applicable
 3. Clear separation of concerns
 4. Interface-driven development

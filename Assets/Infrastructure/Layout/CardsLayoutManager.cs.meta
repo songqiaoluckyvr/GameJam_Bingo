@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 850184c0f82d5f84ba6cfc3f5d88d8ef
+timeCreated: 1430715950
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 36436
+  packageName: Brilliant Bingo Kit
+  packageVersion: 1.0
+  assetPath: Assets/Infrastructure/Layout/CardsLayoutManager.cs
+  uploadId: 62694

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d8faf9f9c7c026245a192991a7acad06
+timeCreated: 1430734083
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 36436
+  packageName: Brilliant Bingo Kit
+  packageVersion: 1.0
+  assetPath: Assets/Animations/ReadySteadyGoAnimationController.controller
+  uploadId: 62694

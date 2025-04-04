@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 2f4e59fd551bda34db97193035116bd6
+timeCreated: 1430757701
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 36436
+  packageName: Brilliant Bingo Kit
+  packageVersion: 1.0
+  assetPath: Assets/Infrastructure/Core/GeneratedNumbersManager.cs
+  uploadId: 62694

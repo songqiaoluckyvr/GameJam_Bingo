@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 95e2988e9c8be544a844b0db4e783e0e
+timeCreated: 1430499094
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 36436
+  packageName: Brilliant Bingo Kit
+  packageVersion: 1.0
+  assetPath: Assets/Animations/BingoBallDisappearance.anim
+  uploadId: 62694

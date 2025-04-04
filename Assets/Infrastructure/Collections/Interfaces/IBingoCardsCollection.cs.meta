@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 77325beb2f0a6314b95a39475c2f21ad
+timeCreated: 1430679279
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 36436
+  packageName: Brilliant Bingo Kit
+  packageVersion: 1.0
+  assetPath: Assets/Infrastructure/Collections/Interfaces/IBingoCardsCollection.cs
+  uploadId: 62694

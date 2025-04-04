@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: df151ffafd8d81742ae45766ed934da8
+timeCreated: 1430757934
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 36436
+  packageName: Brilliant Bingo Kit
+  packageVersion: 1.0
+  assetPath: Assets/Prefabs/GeneratedNumberView.prefab
+  uploadId: 62694

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 86e6a60363a2e0c46b8f07e5ab294373
+timeCreated: 1430495115
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 36436
+  packageName: Brilliant Bingo Kit
+  packageVersion: 1.0
+  assetPath: Assets/Animations/BingoBallFrom1to2.anim
+  uploadId: 62694

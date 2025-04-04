@@ -2,8 +2,8 @@
 
 ## Technology Stack
 - Unity 6000.0.37f1 LTS
-- Photon Unity Networking (PUN 2)
-- DOTween Pro (for animations)
+- Photon Fusion (for networking)
+- HOTween v2 (DOTween) (for animations)
 - TextMeshPro (for UI text)
 
 ## Project Structure
@@ -22,7 +22,7 @@ Assets/
 │   │   ├── UI/
 │   │   └── Game/
 │   ├── Resources/
-│   │   └── PhotonPrefabs/
+│   │   └── FusionPrefabs/
 │   ├── Scenes/
 │   │   ├── Boot.unity
 │   │   ├── Menu.unity
@@ -48,32 +48,32 @@ Assets/
 1. **Game State Management**
 ```csharp
 // Manages high-level game state using state pattern
-public class GameStateManager : MonoBehaviourPunCallbacks
+public class GameStateManager : NetworkBehaviour
 {
     public enum GameState { Lobby, PreGame, Playing, GameOver }
-    private BaseGameState currentState;
+    [Networked] private GameState CurrentState { get; set; }
 }
 ```
 
 2. **Network Manager**
 ```csharp
-// Handles PUN connection and room management
-public class NetworkManager : MonoBehaviourPunCallbacks
+// Handles Fusion connection and room management
+public class NetworkManager : MonoBehaviour
 {
-    public override void OnConnectedToMaster()
-    public override void OnJoinedRoom()
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    private NetworkRunner runner;
+    public async Task StartGame(GameMode mode, string roomName)
+    public void OnPlayerJoined(PlayerRef player)
 }
 ```
 
 3. **Room Management**
 ```csharp
 // Manages room creation and listing
-public class RoomManager : MonoBehaviourPunCallbacks
+public class RoomManager : NetworkBehaviour
 {
+    [Networked] public string RoomName { get; set; }
     public void CreateRoom(string roomName)
     public void JoinRoom(string roomName)
-    public void UpdateRoomList()
 }
 ```
 
@@ -82,10 +82,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
 1. **Bingo Card System**
 ```csharp
 // Handles card generation and validation
-public class BingoCard : MonoBehaviourPunCallbacks
+public class BingoCard : NetworkBehaviour
 {
-    private int[,] numbers;
-    private bool[,] marked;
+    [Networked] private int[,] Numbers { get; set; }
+    [Networked] private bool[,] Marked { get; set; }
     
     public void GenerateCard()
     public void MarkNumber(int number)
@@ -96,46 +96,46 @@ public class BingoCard : MonoBehaviourPunCallbacks
 2. **Number Generator**
 ```csharp
 // Master client handles number generation
-public class NumberGenerator : MonoBehaviourPunCallbacks
+public class NumberGenerator : NetworkBehaviour
 {
-    private HashSet<int> drawnNumbers;
-    private float drawInterval = 30f;
+    [Networked] private HashSet<int> DrawnNumbers { get; set; }
+    [Networked] private float DrawInterval { get; set; } = 30f;
     
-    [PunRPC]
-    private void BroadcastNumber(int number)
+    [Rpc]
+    private void RPC_BroadcastNumber(int number)
 }
 ```
 
 3. **Win Condition Checker**
 ```csharp
-public class WinChecker : MonoBehaviourPunCallbacks
+public class WinChecker : NetworkBehaviour
 {
     public enum WinPattern { Horizontal, Vertical, Diagonal }
     
-    [PunRPC]
-    public void ValidateWinClaim(Player player, WinPattern pattern)
+    [Rpc]
+    public void RPC_ValidateWinClaim(PlayerRef player, WinPattern pattern)
 }
 ```
 
 ## Networking Implementation
 
-### Room Synchronization
+### Networked Properties
 1. **Player Properties**
 ```csharp
-public class PlayerProperties
+public class PlayerData : NetworkBehaviour
 {
-    public const string READY = "Ready";
-    public const string CARD = "Card";
-    public const string MARKED = "Marked";
+    [Networked] public string PlayerName { get; set; }
+    [Networked] public bool IsReady { get; set; }
+    [Networked] public BingoCard Card { get; set; }
 }
 ```
 
 2. **Room Properties**
 ```csharp
-public class RoomProperties
+public class RoomData : NetworkBehaviour
 {
-    public const string GAME_STATE = "GameState";
-    public const string DRAWN_NUMBERS = "DrawnNumbers";
+    [Networked] public GameState CurrentState { get; set; }
+    [Networked] public HashSet<int> DrawnNumbers { get; set; }
 }
 ```
 
@@ -143,10 +143,10 @@ public class RoomProperties
 ```csharp
 public class NetworkEvents
 {
-    public const byte MARK_NUMBER = 1;
-    public const byte CLAIM_WIN = 2;
-    public const byte GAME_START = 3;
-    public const byte DRAW_NUMBER = 4;
+    public const int MARK_NUMBER = 1;
+    public const int CLAIM_WIN = 2;
+    public const int GAME_START = 3;
+    public const int DRAW_NUMBER = 4;
 }
 ```
 

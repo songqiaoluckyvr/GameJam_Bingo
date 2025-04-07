@@ -8,7 +8,7 @@
 - [ ] Create basic folder structure
 
 ### Step 2: Login Scene UI
-**User Story**: As a player, I want to enter my name and connect to the game server so I can join a game.
+**User Story**: As a player, I want to enter my name and connect to the game server so I can access the lobby where I can see available rooms, create new ones, or join existing ones.
 
 **Acceptance Criteria**:
 - [ ] Create Login.uxml layout
@@ -16,7 +16,8 @@
 - [ ] Add name input field
 - [ ] Add connect button
 - [ ] Add status message label
-- [ ] Test: Scene should show all UI elements with correct styling
+- [ ] Add scene transition to lobby
+- [ ] Test: Scene should show all UI elements and transition to lobby on successful connection
 
 **Test Steps**:
 1. Enter Play Mode
@@ -24,6 +25,9 @@
 3. Verify input field accepts text
 4. Verify button is clickable
 5. Verify status label is visible
+6. Enter player name and click connect
+7. Verify scene transitions to lobby scene
+8. Verify player name persists in lobby scene
 
 ### Step 3: Lobby Scene UI
 **User Story**: As a player, I want to see available rooms and create new ones so I can join or host a game.

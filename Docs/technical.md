@@ -1,279 +1,286 @@
-# Multiplayer Bingo Game - Technical Specification
+# Bingo Game - Technical Design Document
 
 ## Technology Stack
-- Unity 6000.0.37f1 LTS
-- Photon Fusion 2 (Shared Mode) for networking
-- HOTween v2 (DOTween) (for animations)
-- TextMeshPro (for UI text)
+- Unity 6000.0.37f1
+- Photon Fusion 2.0.5
+- UI Toolkit
+- C# 8.0 (.NET Standard 2.1)
 
 ## Project Structure
 ```
 Assets/
-├── _Project/
-│   ├── Animations/
-│   │   ├── UI/
-│   │   └── Effects/
-│   ├── Audio/
-│   │   ├── SFX/
-│   │   └── Music/
-│   ├── Materials/
-│   │   └── UI/
-│   ├── Prefabs/
-│   │   ├── UI/
-│   │   └── Game/
-│   ├── Resources/
-│   │   └── FusionPrefabs/
-│   ├── Scenes/
-│   │   ├── Boot.unity
-│   │   ├── Menu.unity
-│   │   └── Game.unity
-│   ├── Scripts/
-│   │   ├── Core/
-│   │   ├── Game/
-│   │   ├── Networking/
-│   │   ├── UI/
-│   │   └── Utils/
-│   ├── Settings/
+├── Scripts/
+│   ├── Core/
+│   │   ├── GameManager.cs
+│   │   ├── NetworkManager.cs
+│   │   └── SceneManager.cs
+│   ├── Network/
+│   │   ├── NetworkPlayer.cs
+│   │   ├── NetworkRoom.cs
+│   │   └── NetworkGameState.cs
+│   ├── Game/
+│   │   ├── BingoCard.cs
+│   │   ├── BingoNumber.cs
+│   │   ├── BingoPattern.cs
+│   │   └── BingoGame.cs
 │   └── UI/
-│       ├── Sprites/
-│       └── Fonts/
-└── Plugins/
-    └── Photon/
+│       ├── LoginUI.cs
+│       ├── LobbyUI.cs
+│       ├── GameRoomUI.cs
+│       └── GameplayUI.cs
+├── UI/
+│   ├── Styles/
+│   │   ├── Common.uss
+│   │   ├── Login.uss
+│   │   ├── Lobby.uss
+│   │   ├── GameRoom.uss
+│   │   └── Gameplay.uss
+│   └── Layouts/
+│       ├── Login.uxml
+│       ├── Lobby.uxml
+│       ├── GameRoom.uxml
+│       └── Gameplay.uxml
+└── Scenes/
+    ├── Login.unity
+    ├── Lobby.unity
+    ├── GameRoom.unity
+    └── Gameplay.unity
 ```
 
-## Architecture Overview
+## Core Systems Implementation
 
-### Core Systems
-
-1. **Game State Management**
+### 1. Network System (Photon Fusion 2.0.5)
 ```csharp
-// Manages high-level game state using state pattern
-public class GameStateManager : NetworkBehaviour
+// NetworkManager.cs
+public class NetworkManager : NetworkBehaviour
 {
-    public enum GameState { Lobby, PreGame, Playing, GameOver }
-    [Networked] private GameState CurrentState { get; set; }
+    // Network callbacks
+    public override void Spawned()
+    {
+        // Initialize network state
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        // Handle network updates
+    }
 }
-```
 
-2. **Network Manager**
-```csharp
-// Handles Fusion connection and room management
-public class NetworkManager : MonoBehaviour
-{
-    private NetworkRunner runner;
-    public async Task StartGame(GameMode mode, string roomName)
-    public void OnPlayerJoined(PlayerRef player)
-}
-```
-
-3. **Room Management**
-```csharp
-// Manages room creation and listing
-public class RoomManager : NetworkBehaviour
-{
-    [Networked] public string RoomName { get; set; }
-    public void CreateRoom(string roomName)
-    public void JoinRoom(string roomName)
-}
-```
-
-### Game Systems
-
-1. **Bingo Card System**
-```csharp
-// Handles card generation and validation
-public class BingoCard : NetworkBehaviour
-{
-    [Networked] private int[,] Numbers { get; set; }
-    [Networked] private bool[,] Marked { get; set; }
-    
-    public void GenerateCard()
-    public void MarkNumber(int number)
-    public bool ValidateWin(WinPattern pattern)
-}
-```
-
-2. **Number Generator**
-```csharp
-// Master client handles number generation
-public class NumberGenerator : NetworkBehaviour
-{
-    [Networked] private HashSet<int> DrawnNumbers { get; set; }
-    [Networked] private float DrawInterval { get; set; } = 30f;
-    
-    [Rpc]
-    private void RPC_BroadcastNumber(int number)
-}
-```
-
-3. **Win Condition Checker**
-```csharp
-public class WinChecker : NetworkBehaviour
-{
-    public enum WinPattern { Horizontal, Vertical, Diagonal }
-    
-    [Rpc]
-    public void RPC_ValidateWinClaim(PlayerRef player, WinPattern pattern)
-}
-```
-
-## Networking Implementation
-
-### Networked Properties
-1. **Player Properties**
-```csharp
-public class PlayerData : NetworkBehaviour
+// NetworkPlayer.cs
+public class NetworkPlayer : NetworkBehaviour
 {
     [Networked] public string PlayerName { get; set; }
     [Networked] public bool IsReady { get; set; }
-    [Networked] public BingoCard Card { get; set; }
+    [Networked] public int PlayerId { get; set; }
 }
-```
 
-2. **Room Properties**
-```csharp
-public class RoomData : NetworkBehaviour
+// NetworkRoom.cs
+public class NetworkRoom : NetworkBehaviour
 {
-    [Networked] public GameState CurrentState { get; set; }
-    [Networked] public HashSet<int> DrawnNumbers { get; set; }
+    [Networked] public string RoomName { get; set; }
+    [Networked] public int MaxPlayers { get; set; }
+    [Networked] public NetworkArray<NetworkPlayer> Players { get; }
 }
 ```
 
-### Network Events
+### 2. Game State Management
 ```csharp
-public class NetworkEvents
+// GameManager.cs
+public class GameManager : MonoBehaviour
 {
-    public const int MARK_NUMBER = 1;
-    public const int CLAIM_WIN = 2;
-    public const int GAME_START = 3;
-    public const int DRAW_NUMBER = 4;
+    private static GameManager _instance;
+    public static GameManager Instance => _instance;
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+}
+
+// BingoGame.cs
+public class BingoGame : NetworkBehaviour
+{
+    [Networked] public NetworkArray<int> DrawnNumbers { get; }
+    [Networked] public int CurrentNumber { get; set; }
+    [Networked] public bool IsGameActive { get; set; }
 }
 ```
 
-## Scene Flow
-1. **Boot Scene**
-   - Initialize core systems
-   - Connect to Photon
-   - Load Menu scene
-
-2. **Menu Scene**
-   - Room creation/listing
-   - Player customization
-   - Settings
-
-3. **Game Scene**
-   - Bingo card display
-   - Number announcements
-   - Game UI
-   - Win conditions
-
-## UI System
-Using Unity's UI Toolkit for modern, responsive UI:
-
-1. **Main Menu UI**
+### 3. UI System (UI Toolkit)
 ```csharp
-public class MainMenuUI : MonoBehaviour
+// Base UI Controller
+public abstract class BaseUIController : MonoBehaviour
 {
-    public void OnCreateRoomClick()
-    public void OnJoinRoomClick()
-    public void UpdateRoomList(List<RoomInfo> rooms)
+    protected VisualElement root;
+    protected UIDocument uiDocument;
+
+    protected virtual void Awake()
+    {
+        uiDocument = GetComponent<UIDocument>();
+        root = uiDocument.rootVisualElement;
+    }
+}
+
+// LoginUI.cs
+public class LoginUI : BaseUIController
+{
+    private TextField nameField;
+    private Button connectButton;
+    private Label statusLabel;
+
+    private void Start()
+    {
+        nameField = root.Q<TextField>("name-field");
+        connectButton = root.Q<Button>("connect-button");
+        statusLabel = root.Q<Label>("status-label");
+    }
 }
 ```
 
-2. **Game UI**
+## Scene Implementation Details
+
+### 1. Login Scene
+- **Network Setup**: Initialize Photon Fusion
+- **UI Elements**: 
+  - Name input field
+  - Connect button
+  - Status message
+- **Transitions**: 
+  - Success: Load Lobby scene
+  - Error: Show error message
+
+### 2. Lobby Scene
+- **Network Features**:
+  - Room list synchronization
+  - Room creation/joining
+- **UI Elements**:
+  - Room list with pagination
+  - Create room panel
+  - Room info cards
+- **Transitions**:
+  - Join room: Load Game Room scene
+  - Create room: Create new room and transition
+
+### 3. Game Room Scene
+- **Network Features**:
+  - Player list synchronization
+  - Ready state management
+- **UI Elements**:
+  - Player list
+  - Ready button
+  - Start game indicator
+- **Transitions**:
+  - All players ready: Load Gameplay scene
+
+### 4. Gameplay Scene
+- **Network Features**:
+  - Number drawing synchronization
+  - Bingo card state management
+  - Win condition checking
+- **UI Elements**:
+  - Bingo card grid
+  - Number display
+  - Player list
+  - BINGO button
+- **Transitions**:
+  - Game end: Show winner and return to lobby
+
+## Performance Optimization
+
+### 1. Network Optimization
+- Use NetworkArray for efficient state synchronization
+- Implement client-side prediction for number drawing
+- Use Networked properties only when necessary
+
+### 2. UI Optimization
+- Use USS for styling instead of inline styles
+- Implement object pooling for number displays
+- Cache frequently accessed UI elements
+
+### 3. Memory Management
+- Implement proper cleanup in scene transitions
+- Use weak references for UI event handlers
+- Clear network callbacks on scene changes
+
+## Error Handling
+
+### 1. Network Errors
 ```csharp
-public class GameUI : MonoBehaviour
+public class NetworkErrorHandler : MonoBehaviour
 {
-    public void UpdateDrawnNumber(int number)
-    public void ShowWinScreen(Player winner)
-    public void UpdateTimer(float time)
+    public void HandleNetworkError(NetworkError error)
+    {
+        switch (error)
+        {
+            case NetworkError.ConnectionFailed:
+                // Handle connection failure
+                break;
+            case NetworkError.RoomFull:
+                // Handle room full error
+                break;
+            // Add more error cases
+        }
+    }
 }
 ```
 
-## Implementation Plan
-
-### Phase 1: Core Setup (Week 1)
-1. Project structure setup
-2. Fusion integration
-3. Basic networking system
-4. Scene management
-
-### Phase 2: Room System (Week 1)
-1. Room creation
-2. Room listing
-3. Room joining
-4. Player synchronization
-
-### Phase 3: Game Mechanics (Week 2)
-1. Bingo card generation
-2. Number drawing system
-3. Card marking
-4. Win condition validation
-
-### Phase 4: UI Implementation (Week 2)
-1. Menu UI
-2. Game UI
-3. Animations
-4. Visual feedback
-
-### Phase 5: Polish (Week 3)
-1. Sound effects
-2. Visual effects
-3. Error handling
-4. Network optimization
-
-### Phase 6: Testing (Week 3)
-1. Multiplayer testing
-2. Network condition testing
-3. Bug fixing
-4. Performance optimization
-
-## Best Practices
-
-### Network Optimization
-1. Use Fusion's built-in state synchronization
-2. Minimize RPCs by batching updates
-3. Use Networked properties wisely
-4. Implement proper fallbacks for network issues
-
-### Unity Best Practices
-1. Object pooling for instantiated elements
-2. Proper use of MonoBehaviour lifecycle
-3. Scriptable Objects for configuration
-4. Event-driven communication
-
-### Code Organization
-1. Namespace organization:
+### 2. Game State Errors
 ```csharp
-namespace BingoGame
+public class GameStateValidator
 {
-    namespace Core { }
-    namespace Network { }
-    namespace UI { }
-    namespace Game { }
-    namespace Utils { }
+    public bool ValidateGameState(BingoGame game)
+    {
+        // Validate game state
+        return true;
+    }
 }
 ```
-2. Dependency injection where applicable
-3. Clear separation of concerns
-4. Interface-driven development
 
 ## Testing Strategy
-1. Unit tests for game logic
-2. Integration tests for network communication
-3. Stress tests for concurrent players
-4. Different network condition testing
 
-## Deployment Checklist
-1. Photon App ID configuration
-2. Build settings verification
-3. Scene inclusion check
-4. Resource compression settings
-5. Performance profiling
-6. Network testing in build
+### 1. Unit Tests
+- Network state synchronization
+- Game logic validation
+- UI interaction testing
 
-## Monitoring and Analytics
-1. Photon Dashboard integration
-2. Basic analytics implementation
-3. Error logging system
-4. Performance metrics tracking 
+### 2. Integration Tests
+- Scene transitions
+- Network room management
+- Game flow testing
+
+### 3. Performance Tests
+- Network bandwidth usage
+- UI rendering performance
+- Memory usage monitoring
+
+## Build and Deployment
+
+### 1. Build Settings
+- Target platform: Windows
+- Graphics API: DirectX 11
+- Scripting backend: Mono
+- API compatibility level: .NET Standard 2.1
+
+### 2. Development Workflow
+1. Set up Photon Fusion project
+2. Configure network settings
+3. Implement core systems
+4. Create UI layouts
+5. Implement game logic
+6. Test and optimize
+7. Build and deploy
+
+## Timeline
+1. Network Setup (1 hour)
+2. Core Systems (1 hour)
+3. UI Implementation (1 hour)
+4. Game Logic (30 minutes)
+5. Testing and Optimization (30 minutes)

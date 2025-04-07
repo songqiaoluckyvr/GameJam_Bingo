@@ -1,0 +1,9 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+@product.md
+@technical.md
+@roadmap.md
+Always refer to these docs

@@ -1,0 +1,203 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Bingo Game - UI Design Document
+
+## Design Principles
+
+### Core Principles
+- **Minimalist**: Clean, uncluttered interfaces with clear hierarchy
+- **Accessible**: High contrast, readable text, and clear interactive elements
+- **Consistent**: Unified design language across all scenes
+- **Responsive**: Adaptable to different screen sizes
+- **Exciting**: Subtle animations and feedback to enhance the Bingo experience
+
+### Color Palette
+```
+Primary Colors:
+- Background: #1A1A1A (Dark Gray)
+- Primary: #FFD700 (Gold)
+- Secondary: #FFFFFF (White)
+- Accent: #FF6B6B (Coral Red)
+
+Text Colors:
+- Primary Text: #FFFFFF (White)
+- Secondary Text: #CCCCCC (Light Gray)
+- Accent Text: #FFD700 (Gold)
+
+Interactive States:
+- Default: #FFD700 (Gold)
+- Hover: #FFE44D (Light Gold)
+- Active: #FFC000 (Dark Gold)
+- Disabled: #666666 (Gray)
+```
+
+### Typography
+- **Primary Font**: Arial (System Font)
+- **Headings**: Bold, 24px
+- **Body Text**: Regular, 16px
+- **Button Text**: Bold, 18px
+- **Small Text**: Regular, 14px
+
+## Scene-Specific UI Guidelines
+
+### 1. Login Scene
+```
+Layout:
+- Centered card with 400px width
+- 20px padding on all sides
+- 40px spacing between elements
+
+Elements:
+- Title: "BINGO" (Gold, centered)
+- Input Field: White background, dark text
+- Connect Button: Gold background, dark text
+- Status Message: Below button, red for errors
+```
+
+### 2. Lobby Scene
+```
+Layout:
+- Two-column layout
+- Left: Room List (70% width)
+- Right: Create Room Panel (30% width)
+
+Room List:
+- Each room card: 100% width, 80px height
+- Room info: Name, Creator, Player Count
+- Join Button: Right-aligned
+- Hover effect: Slight gold border
+
+Create Room Panel:
+- Input field for room name
+- Create Button: Full width
+- Simple form with 20px spacing
+```
+
+### 3. Game Room Scene
+```
+Layout:
+- Player List: Left side (30% width)
+- Ready Panel: Right side (70% width)
+
+Player List:
+- Player cards: 100% width, 60px height
+- Name and Ready Status
+- Ready Status Indicator: Gold circle when ready
+
+Ready Panel:
+- Ready Button: Large, centered
+- Player Count: Below button
+- Start Game Message: When conditions met
+```
+
+### 4. Gameplay Scene
+```
+Layout:
+- Bingo Card: Center (600px x 600px)
+- Number Display: Top center
+- Player List: Right side (20% width)
+- BINGO Button: Bottom center
+
+Bingo Card:
+- 5x5 grid with 20px spacing
+- Numbers: White text
+- Marked Numbers: Gold background
+- Winning Pattern: Red highlight
+
+Number Display:
+- Large number (72px)
+- Gold border
+- Recent numbers list below
+```
+
+## UI Toolkit Implementation Guidelines
+
+### Common Components
+```xml
+<!-- Button Template -->
+<Button class="primary-button">
+    <Label text="Button Text" />
+</Button>
+
+<!-- Input Field Template -->
+<TextField class="primary-input" />
+
+<!-- Card Template -->
+<VisualElement class="card">
+    <Label class="card-title" />
+    <VisualElement class="card-content" />
+</VisualElement>
+```
+
+### Style Sheets
+```css
+/* Common Styles */
+.primary-button {
+    background-color: #FFD700;
+    color: #1A1A1A;
+    border-radius: 4px;
+    padding: 10px 20px;
+    transition: background-color 0.2s;
+}
+
+.primary-button:hover {
+    background-color: #FFE44D;
+}
+
+.card {
+    background-color: #2A2A2A;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+}
+
+/* Animation Classes */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.winning-animation {
+    animation: pulse 1s infinite;
+}
+```
+
+## Interactive Feedback
+
+### Button States
+- Hover: Slight scale increase (1.05)
+- Click: Scale decrease (0.95)
+- Disabled: 50% opacity
+
+### Number Drawing
+- Number appears with scale animation
+- Gold particle effect
+- Sound effect sync
+
+### Bingo Marking
+- Quick fade to gold
+- Subtle particle effect
+- Sound feedback
+
+### Winning
+- Screen flash effect
+- Confetti animation
+- Victory sound
+
+## Responsive Design
+- All measurements in relative units (%, vh, vw)
+- Minimum width: 800px
+- Maximum width: 1200px
+- Center content on larger screens
+- Scrollable content on smaller screens
+
+## Accessibility
+- All interactive elements minimum 44px touch target
+- High contrast color scheme
+- Clear focus states
+- Screen reader support
+- Keyboard navigation support 

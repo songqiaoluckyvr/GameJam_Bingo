@@ -3,7 +3,7 @@
 ## Milestone 1: Basic UI Setup (1 hour)
 ### Step 1: Project Setup
 - [x] Create new Unity project
-- [x] Set up Photon Fusion 2.0.5
+- [x] Set up Photon Fusion 2.0.5 (Shared Mode)
 - [ ] Configure UI Toolkit
 - [ ] Create basic folder structure
 
@@ -47,8 +47,8 @@
 **User Story**: As a player, I want to connect to the game server with my name so I can access the lobby.
 
 **Acceptance Criteria**:
-- [ ] Implement NetworkManager
-- [ ] Add Photon Fusion initialization
+- [ ] Implement NetworkManager (Shared Mode)
+- [ ] Add Photon Fusion initialization (Shared Mode)
 - [ ] Connect login UI to network
 - [ ] Add error handling
 - [ ] Test: Should connect to Photon and show success/error messages
@@ -64,9 +64,9 @@
 **User Story**: As a player, I want to see and interact with available rooms in real-time.
 
 **Acceptance Criteria**:
-- [ ] Implement room list updates
-- [ ] Add room creation functionality
-- [ ] Add room joining functionality
+- [ ] Implement room list updates (Shared Mode)
+- [ ] Add room creation functionality (Shared Mode)
+- [ ] Add room joining functionality (Shared Mode)
 - [ ] Test: Should show real-time room updates
 
 **Test Steps**:
@@ -97,9 +97,9 @@
 **User Story**: As a player, I want to see other players' ready status in real-time.
 
 **Acceptance Criteria**:
-- [ ] Implement player list updates
-- [ ] Add ready status synchronization
-- [ ] Add start game conditions
+- [ ] Implement player list updates (Shared Mode)
+- [ ] Add ready status synchronization (Shared Mode)
+- [ ] Add start game conditions (Shared Mode)
 - [ ] Test: Should show real-time player updates
 
 **Test Steps**:
@@ -129,9 +129,9 @@
 **User Story**: As a player, I want to see numbers being drawn automatically.
 
 **Acceptance Criteria**:
-- [ ] Implement number display
-- [ ] Add automatic number drawing
-- [ ] Add drawn numbers history
+- [ ] Implement number display (Shared Mode)
+- [ ] Add automatic number drawing (Shared Mode)
+- [ ] Add drawn numbers history (Shared Mode)
 - [ ] Test: Should show numbers being drawn
 
 **Test Steps**:

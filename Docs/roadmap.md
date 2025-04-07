@@ -1,285 +1,195 @@
-# Multiplayer Bingo Game - Development Roadmap
+# Bingo Game - Development Roadmap
 
-## Project Setup (Day 1)
-1. **Initial Setup**
-   - Create Unity project (6000.0.37f1 LTS)
-   - Import essential packages:
-     - Photon Fusion
-     - HOTween v2 (DOTween)
-     - TextMeshPro
-   - Setup project structure as defined in technical.md
-   - Configure version control
-   - ✓ Playmode Test: Project opens without errors
+## Milestone 1: Basic UI Setup (1 hour)
+### Step 1: Project Setup
+- [x] Create new Unity project
+- [x] Set up Photon Fusion 2.0.5
+- [ ] Configure UI Toolkit
+- [ ] Create basic folder structure
 
-2. **Fusion Integration**
-   - Initialize Fusion
-   - Configure NetworkRunner
-   - Setup basic NetworkManager
-   - Implement connection handling
-   - Configure network prefabs
-   - ✓ Playmode Test: 
-     - Can enter playmode
-     - NetworkRunner initializes
-     - Basic connection to Photon servers works
-     - No errors in console
+### Step 2: Login Scene UI
+**User Story**: As a player, I want to enter my name and connect to the game server so I can join a game.
 
-3. **Basic Scene Setup**
-   - Create and configure three scenes:
-     - Boot.unity
-     - Menu.unity
-     - Game.unity
-   - Setup basic scene navigation
-   - Implement scene loading system
-   - ✓ Playmode Test:
-     - Boot scene loads automatically
-     - Can navigate to Menu scene
-     - Basic UI elements are visible
-     - No scene transition errors
+**Acceptance Criteria**:
+- [ ] Create Login.uxml layout
+- [ ] Implement Login.uss styles
+- [ ] Add name input field
+- [ ] Add connect button
+- [ ] Add status message label
+- [ ] Test: Scene should show all UI elements with correct styling
 
-## Milestone 1: Room System (Days 2-4)
-### Day 2: Room List UI
-1. **Menu Scene UI**
-   - Design and implement room list panel
-   - Create room button
-   - Room list item prefab
-   - Basic styling and animations
-   - Placeholder data for testing
-   - ✓ Playmode Test:
-     - Room list panel is visible
-     - Create room button is clickable
-     - Room list items show placeholder data
-     - UI animations work smoothly
-     - No UI errors in console
+**Test Steps**:
+1. Enter Play Mode
+2. Verify all UI elements are visible
+3. Verify input field accepts text
+4. Verify button is clickable
+5. Verify status label is visible
 
-### Day 3: Player Name & Room Creation UI
-1. **Player Name Input**
-   - Name input field
-   - Name validation
-   - Name persistence
-   - ✓ Playmode Test:
-     - Can enter player name
-     - Name validation works (min/max length)
-     - Name persists between scene loads
-     - Error messages show for invalid names
+### Step 3: Lobby Scene UI
+**User Story**: As a player, I want to see available rooms and create new ones so I can join or host a game.
 
-2. **Create Room Panel**
-   - Room name input field
-   - Create button
-   - Cancel button
-   - Error message display
-   - ✓ Playmode Test:
-     - Can enter room name
-     - Create and Cancel buttons work
-     - Error messages show for invalid room names
-     - Panel opens/closes smoothly
+**Acceptance Criteria**:
+- [ ] Create Lobby.uxml layout
+- [ ] Implement Lobby.uss styles
+- [ ] Add room list container
+- [ ] Add create room panel
+- [ ] Add room card template
+- [ ] Test: Scene should show room list and create room panel
 
-### Day 4: Room Functionality
-1. **Room Management**
-   - Implement RoomManager
-   - Room creation logic
-   - Room listing updates
-   - Room joining logic
-   - Player name synchronization
-   - ✓ Playmode Test:
-     - Can create a new room
-     - Room appears in room list
-     - Can join an existing room
-     - Player names sync between clients
-     - Room list updates in real-time
+**Test Steps**:
+1. Enter Play Mode
+2. Verify room list is visible
+3. Verify create room panel is visible
+4. Verify room card template is properly styled
 
-## Milestone 2: Bingo Card System (Days 5-7)
-### Day 5: Card UI
-1. **Bingo Card Design**
-   - Create card grid layout
-   - Number cell prefab
-   - Selection/marking visual states
-   - Card header with player name
-   - ✓ Playmode Test:
-     - Card grid displays correctly
-     - Cells are properly sized and spaced
-     - Selection states work (hover, selected)
-     - Player name shows in header
-     - Card animations work smoothly
+## Milestone 2: Network Connection (1 hour)
+### Step 1: Login Functionality
+**User Story**: As a player, I want to connect to the game server with my name so I can access the lobby.
 
-### Day 6: Card Generation
-1. **Number Generation**
-   - Implement BingoCard class
-   - Random number generation logic
-   - Number validation
-   - ✓ Playmode Test:
-     - Card generates with random numbers
-     - Numbers are within valid range (1-75)
-     - No duplicate numbers in same card
-     - Numbers are properly distributed
-     - Card generation is consistent
+**Acceptance Criteria**:
+- [ ] Implement NetworkManager
+- [ ] Add Photon Fusion initialization
+- [ ] Connect login UI to network
+- [ ] Add error handling
+- [ ] Test: Should connect to Photon and show success/error messages
 
-### Day 7: Network Sync
-1. **Card Synchronization**
-   - Implement card data serialization
-   - Network instantiation
-   - Player-card association
-   - ✓ Playmode Test:
-     - Cards sync between players
-     - Each player sees their own card
-     - Card data persists between scene loads
-     - No desync issues between clients
+**Test Steps**:
+1. Enter Play Mode
+2. Enter player name
+3. Click connect
+4. Verify connection status
+5. Verify error messages for invalid input
 
-## Milestone 3: Game Flow (Days 8-10)
-### Day 8: Pre-game UI
-1. **Ready System Interface**
-   - Ready button
-   - Player status display with names
-   - Countdown timer
-   - ✓ Playmode Test:
-     - Ready button is clickable
-     - Player status updates in real-time
-     - Countdown timer works
-     - All players ready triggers game start
-     - Status syncs between clients
+### Step 2: Room Management UI
+**User Story**: As a player, I want to see and interact with available rooms in real-time.
 
-### Day 9: Number Drawing UI
-1. **Number Announcement**
-   - Current number display
-   - Number history panel
-   - Drawing countdown timer
-   - Visual effects
-   - ✓ Playmode Test:
-     - Current number displays clearly
-     - Number history updates correctly
-     - Timer counts down properly
-     - Visual effects work smoothly
-     - All players see same numbers
+**Acceptance Criteria**:
+- [ ] Implement room list updates
+- [ ] Add room creation functionality
+- [ ] Add room joining functionality
+- [ ] Test: Should show real-time room updates
 
-### Day 10: Game Logic
-1. **Core Game Flow**
-   - Implement NumberGenerator
-   - Auto-drawing system
-   - Number validation
-   - Game state management
-   - ✓ Playmode Test:
-     - Numbers draw automatically
-     - No duplicate numbers
-     - Game state transitions work
-     - All players stay in sync
-     - Can complete a full game round
+**Test Steps**:
+1. Enter Play Mode
+2. Create a new room
+3. Verify room appears in list
+4. Try to join a room
+5. Verify room joining feedback
 
-## Milestone 4: Win Condition (Days 11-12)
-### Day 11: Win UI
-1. **Win Detection Interface**
-   - "BINGO!" button
-   - Win pattern highlights
-   - Winner announcement screen with player name
-   - ✓ Playmode Test:
-     - BINGO button is clickable
-     - Pattern highlights work
-     - Winner screen shows correct player
-     - Victory animations play
-     - All players see winner announcement
+## Milestone 3: Game Room (1 hour)
+### Step 1: Game Room UI
+**User Story**: As a player, I want to see other players and indicate my readiness.
 
-### Day 12: Win Logic
-1. **Win Validation**
-   - Implement WinChecker
-   - Pattern validation
-   - Network win announcement
-   - ✓ Playmode Test:
-     - Valid patterns are recognized
-     - Invalid patterns are rejected
-     - Win state syncs between players
-     - First valid claim wins
-     - No false positives
+**Acceptance Criteria**:
+- [ ] Create GameRoom.uxml layout
+- [ ] Implement GameRoom.uss styles
+- [ ] Add player list
+- [ ] Add ready button
+- [ ] Test: Should show player list and ready button
 
-## Milestone 5: Polish & Optimization (Days 13-15)
-### Day 13: Visual Polish
-1. **UI Enhancement**
-   - Add animations
-   - Implement transitions
-   - Add visual feedback
-   - ✓ Playmode Test:
-     - All animations are smooth
-     - Transitions work without glitches
-     - Visual feedback is clear
-     - UI remains responsive
-     - No performance issues
+**Test Steps**:
+1. Enter Play Mode
+2. Verify player list is visible
+3. Verify ready button is clickable
+4. Verify player status indicators
 
-### Day 14: Audio System
-1. **Sound Implementation**
-   - Add UI sound effects
-   - Number call voices
-   - Win celebration sounds
-   - Background music
-   - ✓ Playmode Test:
-     - All sounds play correctly
-     - Volume levels are appropriate
-     - No audio glitches
-     - Music transitions smoothly
-     - Audio syncs between clients
+### Step 2: Player Synchronization
+**User Story**: As a player, I want to see other players' ready status in real-time.
 
-### Day 15: Performance
-1. **Optimization**
-   - Network optimization
-   - UI performance
-   - Memory management
-   - ✓ Playmode Test:
-     - Game runs at target FPS
-     - Network latency is acceptable
-     - Memory usage is stable
-     - No memory leaks
-     - Performance is consistent across clients
+**Acceptance Criteria**:
+- [ ] Implement player list updates
+- [ ] Add ready status synchronization
+- [ ] Add start game conditions
+- [ ] Test: Should show real-time player updates
 
-## Testing Milestones
+**Test Steps**:
+1. Enter Play Mode with multiple players
+2. Toggle ready status
+3. Verify status updates for all players
+4. Verify game start when conditions met
+
+## Milestone 4: Gameplay (1 hour)
+### Step 1: Bingo Card UI
+**User Story**: As a player, I want to see my bingo card and mark numbers.
+
+**Acceptance Criteria**:
+- [ ] Create Gameplay.uxml layout
+- [ ] Implement Gameplay.uss styles
+- [ ] Add bingo card grid
+- [ ] Add number marking system
+- [ ] Test: Should show bingo card and allow marking
+
+**Test Steps**:
+1. Enter Play Mode
+2. Verify bingo card is visible
+3. Try marking numbers
+4. Verify marked numbers are highlighted
+
+### Step 2: Number Drawing
+**User Story**: As a player, I want to see numbers being drawn automatically.
+
+**Acceptance Criteria**:
+- [ ] Implement number display
+- [ ] Add automatic number drawing
+- [ ] Add drawn numbers history
+- [ ] Test: Should show numbers being drawn
+
+**Test Steps**:
+1. Enter Play Mode
+2. Verify number display
+3. Wait for automatic drawing
+4. Verify drawn numbers history
+
+### Step 3: Win Condition
+**User Story**: As a player, I want to know when I've won and be able to claim my victory.
+
+**Acceptance Criteria**:
+- [ ] Implement win condition checking
+- [ ] Add BINGO button
+- [ ] Add winner announcement
+- [ ] Test: Should detect wins and allow claiming
+
+**Test Steps**:
+1. Enter Play Mode
+2. Mark winning pattern
+3. Verify BINGO button activates
+4. Click BINGO button
+5. Verify winner announcement
+
+## Milestone 5: Polish (30 minutes)
+### Step 1: Visual Feedback
+**User Story**: As a player, I want to see clear visual feedback for all actions.
+
+**Acceptance Criteria**:
+- [ ] Add number drawing animations
+- [ ] Add marking animations
+- [ ] Add win celebration
+- [ ] Test: Should show all animations
+
+**Test Steps**:
+1. Enter Play Mode
+2. Verify all animations work
+3. Verify performance is smooth
+
+### Step 2: Error Handling
+**User Story**: As a player, I want to see clear error messages when something goes wrong.
+
+**Acceptance Criteria**:
+- [ ] Add network error handling
+- [ ] Add game state error handling
+- [ ] Add UI error states
+- [ ] Test: Should handle all error cases
+
+**Test Steps**:
+1. Enter Play Mode
+2. Test various error scenarios
+3. Verify error messages are clear
+
+## Testing Checklist
 After each milestone:
-1. **Unit Testing**
-   - Core logic tests
-   - UI interaction tests
-   - Network behavior tests
-
-2. **Integration Testing**
-   - Cross-scene flow
-   - Network synchronization
-   - State management
-
-3. **Multiplayer Testing**
-   - 2-player sessions
-   - Edge case testing
-   - Network condition testing
-
-## Duplicated Information Extracted
-The following information was duplicated across product.md and technical.md:
-1. Room Management features
-2. Game flow description
-3. Win conditions
-4. Core gameplay mechanics
-
-These have been consolidated in the product.md, while technical.md now focuses on implementation details.
-
-## Definition of Done for Each Feature
-1. UI implementation complete
-2. Core functionality working
-3. Network synchronization implemented
-4. Playable in editor
-5. Tested with multiple clients
-6. No blocking bugs
-7. Basic error handling
-8. Performance acceptable
-
-## Daily Routine
-1. Morning: UI implementation
-2. Afternoon: Core functionality
-3. Evening: Testing and fixes
-4. End of day: Playable build
-
-## Risk Management
-1. **Network Issues**
-   - Early Fusion integration
-   - Continuous multiplayer testing
-   - Fallback mechanisms
-
-2. **Performance**
-   - Regular profiling
-   - Optimization after each milestone
-   - Load testing
-
-3. **Scope Creep**
-   - Stick to MVP features
-   - Daily progress review
-   - Clear milestone boundaries 
+- [ ] Verify all UI elements are visible
+- [ ] Test all interactive elements
+- [ ] Check network synchronization
+- [ ] Verify error handling
+- [ ] Test performance in Play Mode
+- [ ] Document any issues found

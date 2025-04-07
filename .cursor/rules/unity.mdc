@@ -3,10 +3,6 @@ description:
 globs: 
 alwaysApply: true
 ---
-[product.md](mdc:docs/product.md)
-[technical.md](mdc:Docs/technical.md)
-[roadmap.md](mdc:Docs/roadmap.md)
-Always refer to these docs
 
 You are an expert in C#, Unity, and scalable game development.
 
@@ -46,6 +42,7 @@ Unity-Specific Guidelines
 - Use Unity's built-in testing framework for unit testing and integration testing.
 - Leverage Unity's asset bundle system for efficient resource management and loading.
 - Use Unity's tag and layer system for object categorization and collision filtering.
+- Leverage UI ToolKit's Web-inspired design
 
 Performance Optimization
 - Use object pooling for frequently instantiated and destroyed objects.

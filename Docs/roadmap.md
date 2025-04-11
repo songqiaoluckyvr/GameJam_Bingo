@@ -4,9 +4,9 @@
 ### Step 1: Project Setup
 - [x] Create new Unity project
 - [x] Set up Photon Fusion 2.0.5 (Shared Mode)
-- [ ] Configure UI Toolkit
+- [x] Configure UI Toolkit
   - [x] Install UI Toolkit package
-  - [ ] Create UI Document for each scene
+  - [x] Create UI Document for each scene
     - [x] Login Scene
       - [x] Create Login.uxml in UI/Layouts/Screens
       - [x] Add container with flex layout
@@ -16,6 +16,9 @@
       - [x] Add status message label
       - [x] Link Login.uss style sheet
       - [x] Test: Verify layout in UI Builder
+      - [x] Create LoginUI.cs script
+      - [x] Implement network connection
+      - [x] Add scene transition logic
     - [ ] Lobby Scene
       - [ ] Create Lobby.uxml in UI/Layouts/Screens
       - [ ] Add two-column layout
@@ -41,7 +44,7 @@
       - [ ] Add BINGO button
       - [ ] Link Gameplay.uss style sheet
       - [ ] Test: Verify layout in UI Builder
-  - [ ] Set up USS style sheets
+  - [x] Set up USS style sheets
     - [x] Create Common Styles
       - [x] Create Variables.uss
         - [x] Define color variables
@@ -145,13 +148,13 @@
 **User Story**: As a player, I want to enter my name and connect to the game server so I can access the lobby where I can see available rooms, create new ones, or join existing ones.
 
 **Acceptance Criteria**:
-- [ ] Create Login.uxml layout
-- [ ] Implement Login.uss styles
-- [ ] Add name input field
-- [ ] Add connect button
-- [ ] Add status message label
-- [ ] Add scene transition to lobby
-- [ ] Test: Scene should show all UI elements and transition to lobby on successful connection
+- [x] Create Login.uxml layout
+- [x] Implement Login.uss styles
+- [x] Add name input field
+- [x] Add connect button
+- [x] Add status message label
+- [x] Add scene transition to lobby
+- [x] Test: Scene should show all UI elements and transition to lobby on successful connection
 
 **Test Steps**:
 1. Enter Play Mode
@@ -185,11 +188,11 @@
 **User Story**: As a player, I want to connect to the game server with my name so I can access the lobby.
 
 **Acceptance Criteria**:
-- [ ] Implement NetworkManager (Shared Mode)
-- [ ] Add Photon Fusion initialization (Shared Mode)
-- [ ] Connect login UI to network
-- [ ] Add error handling
-- [ ] Test: Should connect to Photon and show success/error messages
+- [x] Implement NetworkManager (Shared Mode)
+- [x] Add Photon Fusion initialization (Shared Mode)
+- [x] Connect login UI to network
+- [x] Add error handling
+- [x] Test: Should connect to Photon and show success/error messages
 
 **Test Steps**:
 1. Enter Play Mode

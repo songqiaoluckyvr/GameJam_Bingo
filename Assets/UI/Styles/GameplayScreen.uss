@@ -1,0 +1,307 @@
+.screen {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: #2B2D42;
+    flex-direction: column;
+}
+
+.number-display-container {
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.current-number {
+    font-size: 72px;
+    color: #FFD700;
+    -unity-font-style: bold;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 20px 40px;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: #FFD700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.game-area {
+    flex-direction: row;
+    flex-grow: 1;
+    margin: 10px 0;
+    min-height: 600px;
+}
+
+.player-list-container {
+    width: 200px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.player-list {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bingo-card-container {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    min-width: 700px;
+    flex-shrink: 1;
+    flex-direction: column;
+}
+
+.bingo-grid {
+    width: 700px;
+    height: 550px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 0;
+    flex-direction: column;
+    border: 4px solid #1E90FF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.bingo-header {
+    flex-direction: row;
+    height: 60px;
+    margin: 0;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.header-cell {
+    width: 20%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    -unity-font-style: bold;
+    border-bottom: 2px solid #1E90FF;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 0;
+    -unity-text-align: middle-center;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.header-cell Label {
+    width: 100%;
+    height: 100%;
+    -unity-text-align: middle-center;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-b { background-color: #FFD700; }
+.header-i { background-color: #90EE90; }
+.header-n { background-color: #DDA0DD; }
+.header-g { background-color: #FFB6C1; }
+.header-o { background-color: #FF6B6B; }
+
+.grid-numbers {
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    width: 100%;
+    height: calc(100% - 60px);
+    padding: 0;
+    background-color: #FFFFFF;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.grid-cell {
+    width: 20%;
+    height: 20%;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    flex-grow: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 38px;
+    -unity-font-style: bold;
+    color: #333333;
+    border-radius: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -unity-text-align: middle-center;
+}
+
+.grid-cell:hover {
+    background-color: rgba(30, 144, 255, 0.1);
+}
+
+.grid-cell:active {
+    background-color: rgba(30, 144, 255, 0.2);
+    scale: 0.98;
+}
+
+.grid-cell.marked {
+    background-color: rgba(30, 144, 255, 0.7);
+    color: #FFFFFF;
+    font-weight: bold;
+    box-shadow: inset 0 0 8px rgba(30, 144, 255, 0.7);
+    cursor: default;
+    border: 2px solid #1E90FF;
+}
+
+.grid-cell.marked:hover {
+    background-color: rgba(30, 144, 255, 0.7);
+    scale: 1;
+}
+
+.grid-cell.marked:active {
+    background-color: rgba(30, 144, 255, 0.7);
+    scale: 1;
+}
+
+.grid-cell.invalid-selection {
+    animation: shake 0.3s ease-in-out;
+    background-color: rgba(255, 99, 71, 0.2);
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
+}
+
+.grid-cell.free-space {
+    background-color: rgba(30, 144, 255, 0.2);
+    color: #1E90FF;
+    font-weight: bold;
+}
+
+.free-space {
+    background-color: rgba(30, 144, 255, 0.1);
+}
+
+.free-space:hover {
+    background-color: rgba(30, 144, 255, 0.2);
+}
+
+.number-history-container {
+    width: 200px;
+    margin-left: 20px;
+    flex-shrink: 0;
+}
+
+.section-title {
+    color: #FFD700;
+    font-size: 24px;
+    -unity-font-style: bold;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.number-history {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.history-number {
+    color: white;
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin: 2px 0;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.player-card {
+    background-color: rgba(255, 215, 0, 0.15);
+    border-radius: 4px;
+    padding: 10px;
+    margin: 4px 0;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.player-name {
+    color: white;
+    font-size: 16px;
+    -unity-font-style: bold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.bingo-button {
+    height: 60px;
+    width: 200px;
+    align-self: center;
+    margin-top: 20px;
+    background-color: #FF9933;
+    color: #FFFFFF;
+    font-size: 24px;
+    -unity-font-style: bold;
+    border-radius: 30px;
+    border-width: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.bingo-button:hover {
+    scale: 1.05;
+    background-color: #FFA54F;
+}
+
+.bingo-button:active {
+    scale: 0.95;
+    background-color: #FF8C00;
+}
+
+.bingo-button.bingo-win {
+    background-color: #32CD32;
+    animation: pulse 1s infinite;
+    box-shadow: 0 0 30px rgba(50, 205, 50, 0.7);
+}
+
+.bingo-button.bingo-invalid {
+    background-color: #FF6347;
+    animation: shake 0.3s ease-in-out;
+}
+
+.bingo-button.bingo-available {
+    background-color: #FFD700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.bingo-grid {
+    width: 800px;
+    height: 600px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 0;
+    flex-direction: column;
+    border: 4px solid #1E90FF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.grid-numbers {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: #FFFFFF;
+} 

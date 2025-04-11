@@ -1,0 +1,61 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/GameplayScreen.uss?fileID=7433441132597879392&amp;guid=64a182b014dd6aa408f2c185f18797ce&amp;type=3#GameplayScreen" />
+    <engine:VisualElement name="gameplay-screen" class="screen">
+        <engine:VisualElement name="number-display-container" class="number-display-container">
+            <engine:Label name="current-number" text="00" class="current-number" />
+        </engine:VisualElement>
+        <engine:VisualElement name="game-area" class="game-area">
+            <engine:VisualElement name="player-list-container" class="player-list-container">
+                <engine:ScrollView name="player-list" class="player-list" />
+            </engine:VisualElement>
+            <engine:VisualElement name="bingo-card-container" class="bingo-card-container">
+                <engine:VisualElement name="bingo-grid" class="bingo-grid">
+                    <engine:VisualElement name="bingo-header" class="bingo-header">
+                        <engine:Label text="B" class="header-cell header-b" />
+                        <engine:Label text="I" class="header-cell header-i" />
+                        <engine:Label text="N" class="header-cell header-n" />
+                        <engine:Label text="G" class="header-cell header-g" />
+                        <engine:Label text="O" class="header-cell header-o" />
+                    </engine:VisualElement>
+                    <engine:VisualElement name="grid-numbers" class="grid-numbers">
+                        <!-- Row 1 -->
+                        <engine:Button name="cell-0-0" class="grid-cell" />
+                        <engine:Button name="cell-0-1" class="grid-cell" />
+                        <engine:Button name="cell-0-2" class="grid-cell" />
+                        <engine:Button name="cell-0-3" class="grid-cell" />
+                        <engine:Button name="cell-0-4" class="grid-cell" />
+                        <!-- Row 2 -->
+                        <engine:Button name="cell-1-0" class="grid-cell" />
+                        <engine:Button name="cell-1-1" class="grid-cell" />
+                        <engine:Button name="cell-1-2" class="grid-cell" />
+                        <engine:Button name="cell-1-3" class="grid-cell" />
+                        <engine:Button name="cell-1-4" class="grid-cell" />
+                        <!-- Row 3 -->
+                        <engine:Button name="cell-2-0" class="grid-cell" />
+                        <engine:Button name="cell-2-1" class="grid-cell" />
+                        <engine:Button name="cell-2-2" class="grid-cell free-space" />
+                        <engine:Button name="cell-2-3" class="grid-cell" />
+                        <engine:Button name="cell-2-4" class="grid-cell" />
+                        <!-- Row 4 -->
+                        <engine:Button name="cell-3-0" class="grid-cell" />
+                        <engine:Button name="cell-3-1" class="grid-cell" />
+                        <engine:Button name="cell-3-2" class="grid-cell" />
+                        <engine:Button name="cell-3-3" class="grid-cell" />
+                        <engine:Button name="cell-3-4" class="grid-cell" />
+                        <!-- Row 5 -->
+                        <engine:Button name="cell-4-0" class="grid-cell" />
+                        <engine:Button name="cell-4-1" class="grid-cell" />
+                        <engine:Button name="cell-4-2" class="grid-cell" />
+                        <engine:Button name="cell-4-3" class="grid-cell" />
+                        <engine:Button name="cell-4-4" class="grid-cell" />
+                    </engine:VisualElement>
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement name="number-history-container" class="number-history-container">
+                <engine:Label text="Number History" class="section-title" />
+                <engine:ScrollView name="number-history" class="number-history" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:Button name="bingo-button" text="BINGO!" class="bingo-button" />
+    </engine:VisualElement>
+</engine:UXML>

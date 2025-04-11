@@ -42,33 +42,33 @@
       - [ ] Link Gameplay.uss style sheet
       - [ ] Test: Verify layout in UI Builder
   - [ ] Set up USS style sheets
-    - [ ] Create Common Styles
-      - [ ] Create Variables.uss
-        - [ ] Define color variables
-        - [ ] Define spacing variables
-        - [ ] Define font variables
-        - [ ] Define animation variables
-      - [ ] Create Typography.uss
-        - [ ] Define heading styles
-        - [ ] Define body text styles
-        - [ ] Define button text styles
-        - [ ] Define label styles
-      - [ ] Create Colors.uss
-        - [ ] Define primary colors
-        - [ ] Define background colors
-        - [ ] Define text colors
-        - [ ] Define state colors (hover, active, disabled)
-      - [ ] Create Animations.uss
-        - [ ] Define transition animations
-        - [ ] Define hover effects
-        - [ ] Define click effects
-        - [ ] Define win animations
+    - [x] Create Common Styles
+      - [x] Create Variables.uss
+        - [x] Define color variables
+        - [x] Define spacing variables
+        - [x] Define font variables
+        - [x] Define animation variables
+      - [x] Create Typography.uss
+        - [x] Define heading styles
+        - [x] Define body text styles
+        - [x] Define button text styles
+        - [x] Define label styles
+      - [x] Create Colors.uss
+        - [x] Define primary colors
+        - [x] Define background colors
+        - [x] Define text colors
+        - [x] Define state colors (hover, active, disabled)
+      - [x] Create Animations.uss
+        - [x] Define transition animations
+        - [x] Define hover effects
+        - [x] Define click effects
+        - [x] Define win animations
     - [ ] Create Screen-Specific Styles
-      - [ ] Login.uss
-        - [ ] Style login container
-        - [ ] Style input field
-        - [ ] Style connect button
-        - [ ] Style status message
+      - [x] Login.uss
+        - [x] Style login container
+        - [x] Style input field
+        - [x] Style connect button
+        - [x] Style status message
       - [ ] Lobby.uss
         - [ ] Style room list
         - [ ] Style room card

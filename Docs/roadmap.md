@@ -5,6 +5,140 @@
 - [x] Create new Unity project
 - [x] Set up Photon Fusion 2.0.5 (Shared Mode)
 - [ ] Configure UI Toolkit
+  - [ ] Install UI Toolkit package
+  - [ ] Create UI Document for each scene
+    - [ ] Login Scene
+      - [ ] Create Login.uxml in UI/Layouts/Screens
+      - [ ] Add container with flex layout
+      - [ ] Add title "BINGO" (centered)
+      - [ ] Add name input field
+      - [ ] Add connect button
+      - [ ] Add status message label
+      - [ ] Link Login.uss style sheet
+      - [ ] Test: Verify layout in UI Builder
+    - [ ] Lobby Scene
+      - [ ] Create Lobby.uxml in UI/Layouts/Screens
+      - [ ] Add two-column layout
+      - [ ] Left column: Room List (ListView)
+      - [ ] Right column: Create Room Panel
+      - [ ] Add room card template
+      - [ ] Add create room form
+      - [ ] Link Lobby.uss style sheet
+      - [ ] Test: Verify layout in UI Builder
+    - [ ] Game Room Scene
+      - [ ] Create GameRoom.uxml in UI/Layouts/Screens
+      - [ ] Add player list container
+      - [ ] Add ready button
+      - [ ] Add player status indicators
+      - [ ] Add start game message
+      - [ ] Link GameRoom.uss style sheet
+      - [ ] Test: Verify layout in UI Builder
+    - [ ] Gameplay Scene
+      - [ ] Create Gameplay.uxml in UI/Layouts/Screens
+      - [ ] Add bingo card grid (5x5)
+      - [ ] Add number display area
+      - [ ] Add drawn numbers history
+      - [ ] Add BINGO button
+      - [ ] Link Gameplay.uss style sheet
+      - [ ] Test: Verify layout in UI Builder
+  - [ ] Set up USS style sheets
+    - [ ] Create Common Styles
+      - [ ] Create Variables.uss
+        - [ ] Define color variables
+        - [ ] Define spacing variables
+        - [ ] Define font variables
+        - [ ] Define animation variables
+      - [ ] Create Typography.uss
+        - [ ] Define heading styles
+        - [ ] Define body text styles
+        - [ ] Define button text styles
+        - [ ] Define label styles
+      - [ ] Create Colors.uss
+        - [ ] Define primary colors
+        - [ ] Define background colors
+        - [ ] Define text colors
+        - [ ] Define state colors (hover, active, disabled)
+      - [ ] Create Animations.uss
+        - [ ] Define transition animations
+        - [ ] Define hover effects
+        - [ ] Define click effects
+        - [ ] Define win animations
+    - [ ] Create Screen-Specific Styles
+      - [ ] Login.uss
+        - [ ] Style login container
+        - [ ] Style input field
+        - [ ] Style connect button
+        - [ ] Style status message
+      - [ ] Lobby.uss
+        - [ ] Style room list
+        - [ ] Style room card
+        - [ ] Style create room panel
+        - [ ] Style room buttons
+      - [ ] GameRoom.uss
+        - [ ] Style player list
+        - [ ] Style ready button
+        - [ ] Style status indicators
+        - [ ] Style start message
+      - [ ] Gameplay.uss
+        - [ ] Style bingo card grid
+        - [ ] Style number cells
+        - [ ] Style number display
+        - [ ] Style BINGO button
+    - [ ] Test: Verify all styles in UI Builder
+  - [ ] Configure UI Builder
+  - [ ] Create common UI components
+    - [ ] Create Button Components
+      - [ ] Create PrimaryButton.uxml
+        - [ ] Add button container
+        - [ ] Add label for text
+        - [ ] Add hover state
+        - [ ] Add active state
+        - [ ] Add disabled state
+      - [ ] Create SecondaryButton.uxml
+        - [ ] Add button container
+        - [ ] Add label for text
+        - [ ] Add hover state
+        - [ ] Add active state
+        - [ ] Add disabled state
+    - [ ] Create Input Components
+      - [ ] Create TextInput.uxml
+        - [ ] Add input container
+        - [ ] Add text field
+        - [ ] Add placeholder text
+        - [ ] Add error state
+      - [ ] Create NumberInput.uxml
+        - [ ] Add input container
+        - [ ] Add integer field
+        - [ ] Add validation
+        - [ ] Add error state
+    - [ ] Create Card Components
+      - [ ] Create RoomCard.uxml
+        - [ ] Add card container
+        - [ ] Add room info section
+        - [ ] Add player count
+        - [ ] Add join button
+      - [ ] Create PlayerCard.uxml
+        - [ ] Add card container
+        - [ ] Add player name
+        - [ ] Add ready status
+        - [ ] Add host indicator
+    - [ ] Create Grid Components
+      - [ ] Create BingoGrid.uxml
+        - [ ] Add grid container
+        - [ ] Add cell template
+        - [ ] Add number display
+        - [ ] Add marking system
+    - [ ] Create List Components
+      - [ ] Create RoomList.uxml
+        - [ ] Add list container
+        - [ ] Add scroll view
+        - [ ] Add empty state
+      - [ ] Create PlayerList.uxml
+        - [ ] Add list container
+        - [ ] Add scroll view
+        - [ ] Add empty state
+    - [ ] Test: Verify all components in UI Builder
+  - [ ] Test: Verify UI Toolkit is working in Play Mode
 - [ ] Create basic folder structure
 
 ### Step 2: Login Scene UI

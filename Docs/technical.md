@@ -19,23 +19,44 @@ Assets/
 │   │   ├── BingoGame.cs
 │   │   └── BingoCard.cs
 │   ├── UI/
-│   │   ├── BaseUIController.cs
-│   │   ├── LoginUI.cs
-│   │   ├── LobbyUI.cs
-│   │   ├── GameRoomUI.cs
-│   │   └── GameplayUI.cs
+│   │   ├── Controllers/
+│   │   │   ├── BaseUIController.cs
+│   │   │   ├── LoginUIController.cs
+│   │   │   ├── LobbyUIController.cs
+│   │   │   ├── GameRoomUIController.cs
+│   │   │   └── GameplayUIController.cs
+│   │   └── Components/
+│   │       ├── ButtonComponent.cs
+│   │       ├── InputFieldComponent.cs
+│   │       └── CardComponent.cs
 │   └── Utils/
 │       ├── ErrorHandler.cs
 │       └── AudioManager.cs
 ├── UI/
+│   ├── Layouts/
+│   │   ├── Common/
+│   │   │   ├── Button.uxml
+│   │   │   ├── InputField.uxml
+│   │   │   └── Card.uxml
+│   │   └── Screens/
+│   │       ├── Login.uxml
+│   │       ├── Lobby.uxml
+│   │       ├── GameRoom.uxml
+│   │       └── Gameplay.uxml
 │   ├── Styles/
-│   │   ├── Common.uss
-│   │   └── Animations.uss
-│   └── Layouts/
-│       ├── Login.uxml
-│       ├── Lobby.uxml
-│       ├── GameRoom.uxml
-│       └── Gameplay.uxml
+│   │   ├── Common/
+│   │   │   ├── Variables.uss
+│   │   │   ├── Typography.uss
+│   │   │   ├── Colors.uss
+│   │   │   └── Animations.uss
+│   │   └── Screens/
+│   │       ├── Login.uss
+│   │       ├── Lobby.uss
+│   │       ├── GameRoom.uss
+│   │       └── Gameplay.uss
+│   └── Resources/
+│       ├── Icons/
+│       └── Fonts/
 └── Scenes/
     ├── Login.unity
     ├── Lobby.unity

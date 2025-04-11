@@ -1,9 +1,15 @@
+/* Import Common Styles */
+@import url("Common/Variables.uss");
+@import url("Common/Typography.uss");
+@import url("Common/Colors.uss");
+@import url("Common/Animations.uss");
+
 /* Login Container */
 .login-container {
     width: 400px;
     height: 300px;
     margin: auto;
-    padding: 20px;
+    padding: var(--spacing-lg);
     background-color: #2A2A2A;
     border-radius: 8px;
     flex-direction: column;
@@ -13,44 +19,59 @@
 
 /* Title */
 .login-title {
-    color: #FFD700;
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 40px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    color: var(--color-primary);
+    font-size: var(--font-size-xxl);
+    margin-bottom: var(--spacing-xl);
 }
 
 /* Input Field */
 .login-input {
     width: 100%;
-    margin-bottom: 20px;
-    background-color: #FFFFFF;
-    color: #1A1A1A;
+    margin-bottom: var(--spacing-lg);
+    background-color: var(--color-secondary);
+    color: var(--color-background);
     border-radius: 4px;
-    padding: 8px;
+    padding: var(--spacing-sm);
+    transition: all var(--transition-fast) ease;
+}
+
+.login-input:hover {
+    background-color: var(--color-secondary);
+    filter: brightness(0.95);
+}
+
+.login-input:focus {
+    background-color: var(--color-secondary);
+    filter: brightness(0.9);
 }
 
 /* Connect Button */
 .login-button {
     width: 100%;
     height: 40px;
-    background-color: #FFD700;
-    color: #1A1A1A;
+    background-color: var(--color-button-default);
+    color: var(--color-background);
     border-radius: 4px;
-    font-weight: bold;
-    margin-bottom: 20px;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-lg);
+    transition: all var(--transition-fast) ease;
 }
 
 .login-button:hover {
-    background-color: #FFE44D;
+    background-color: var(--color-button-hover);
 }
 
 .login-button:active {
-    background-color: #FFC000;
+    background-color: var(--color-button-active);
+    transform: scale(0.98);
 }
 
 /* Status Message */
 .login-status {
-    color: #FF6B6B;
-    font-size: 14px;
+    color: var(--color-accent);
+    font-size: var(--font-size-sm);
     text-align: center;
+    min-height: 20px;
 } 

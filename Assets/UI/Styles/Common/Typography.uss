@@ -1,0 +1,76 @@
+/* Import Variables */
+@import url("Variables.uss");
+
+/* Heading Styles */
+.heading-xxl {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.heading-xl {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.heading-lg {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Body Text Styles */
+.body-text {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-primary);
+    line-height: 1.5;
+}
+
+.body-text-secondary {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+/* Button Text Styles */
+.button-text {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    text-align: center;
+}
+
+/* Label Styles */
+.label-primary {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+.label-secondary {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-secondary);
+}
+
+/* Small Text Styles */
+.small-text {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-secondary);
+} 

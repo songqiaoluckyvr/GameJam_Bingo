@@ -1,0 +1,73 @@
+/* Import Variables */
+@import url("Variables.uss");
+
+/* Keyframes */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes slideIn {
+    0% { transform: translateY(-20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Transition Classes */
+.transition-fast {
+    transition: all var(--transition-fast) ease;
+}
+
+.transition-normal {
+    transition: all var(--transition-normal) ease;
+}
+
+.transition-slow {
+    transition: all var(--transition-slow) ease;
+}
+
+/* Animation Classes */
+.pulse-animation {
+    animation: var(--animation-pulse);
+}
+
+.fade-in {
+    animation: fadeIn var(--transition-normal) ease;
+}
+
+.slide-in {
+    animation: slideIn var(--transition-normal) ease;
+}
+
+/* Hover Effects */
+.hover-scale {
+    transition: transform var(--transition-fast) ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.hover-brighten {
+    transition: filter var(--transition-fast) ease;
+}
+
+.hover-brighten:hover {
+    filter: brightness(1.2);
+}
+
+/* Click Effects */
+.click-shrink:active {
+    transform: scale(0.95);
+}
+
+/* Win Animations */
+.winning-animation {
+    animation: pulse 1s infinite;
+    background-color: var(--color-accent);
+} 

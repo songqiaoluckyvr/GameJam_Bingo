@@ -1,0 +1,71 @@
+/* Import Variables */
+@import url("Variables.uss");
+
+/* Primary Colors */
+.primary-background {
+    background-color: var(--color-background);
+}
+
+.primary-color {
+    color: var(--color-primary);
+}
+
+.secondary-color {
+    color: var(--color-secondary);
+}
+
+.accent-color {
+    color: var(--color-accent);
+}
+
+/* Text Colors */
+.text-primary {
+    color: var(--color-text-primary);
+}
+
+.text-secondary {
+    color: var(--color-text-secondary);
+}
+
+.text-accent {
+    color: var(--color-text-accent);
+}
+
+/* Button States */
+.button-default {
+    background-color: var(--color-button-default);
+    transition: background-color var(--transition-fast);
+}
+
+.button-default:hover {
+    background-color: var(--color-button-hover);
+}
+
+.button-default:active {
+    background-color: var(--color-button-active);
+}
+
+.button-disabled {
+    background-color: var(--color-button-disabled);
+    cursor: not-allowed;
+}
+
+/* Card Colors */
+.card-background {
+    background-color: #2A2A2A;
+    border-radius: 8px;
+    padding: var(--spacing-md);
+}
+
+/* Status Colors */
+.status-success {
+    color: #4CAF50;
+}
+
+.status-warning {
+    color: #FFC107;
+}
+
+.status-error {
+    color: var(--color-accent);
+} 

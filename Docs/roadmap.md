@@ -4,18 +4,21 @@
 ### Step 1: Project Setup
 - [x] Create new Unity project
 - [x] Set up Photon Fusion 2.0.5 (Shared Mode)
-- [ ] Configure UI Toolkit
-  - [ ] Install UI Toolkit package
-  - [ ] Create UI Document for each scene
-    - [ ] Login Scene
-      - [ ] Create Login.uxml in UI/Layouts/Screens
-      - [ ] Add container with flex layout
-      - [ ] Add title "BINGO" (centered)
-      - [ ] Add name input field
-      - [ ] Add connect button
-      - [ ] Add status message label
-      - [ ] Link Login.uss style sheet
-      - [ ] Test: Verify layout in UI Builder
+- [x] Configure UI Toolkit
+  - [x] Install UI Toolkit package
+  - [x] Create UI Document for each scene
+    - [x] Login Scene
+      - [x] Create Login.uxml in UI/Layouts/Screens
+      - [x] Add container with flex layout
+      - [x] Add title "BINGO" (centered)
+      - [x] Add name input field
+      - [x] Add connect button
+      - [x] Add status message label
+      - [x] Link Login.uss style sheet
+      - [x] Test: Verify layout in UI Builder
+      - [x] Create LoginUI.cs script
+      - [x] Implement network connection
+      - [x] Add scene transition logic
     - [ ] Lobby Scene
       - [ ] Create Lobby.uxml in UI/Layouts/Screens
       - [ ] Add two-column layout
@@ -41,34 +44,34 @@
       - [ ] Add BINGO button
       - [ ] Link Gameplay.uss style sheet
       - [ ] Test: Verify layout in UI Builder
-  - [ ] Set up USS style sheets
-    - [ ] Create Common Styles
-      - [ ] Create Variables.uss
-        - [ ] Define color variables
-        - [ ] Define spacing variables
-        - [ ] Define font variables
-        - [ ] Define animation variables
-      - [ ] Create Typography.uss
-        - [ ] Define heading styles
-        - [ ] Define body text styles
-        - [ ] Define button text styles
-        - [ ] Define label styles
-      - [ ] Create Colors.uss
-        - [ ] Define primary colors
-        - [ ] Define background colors
-        - [ ] Define text colors
-        - [ ] Define state colors (hover, active, disabled)
-      - [ ] Create Animations.uss
-        - [ ] Define transition animations
-        - [ ] Define hover effects
-        - [ ] Define click effects
-        - [ ] Define win animations
+  - [x] Set up USS style sheets
+    - [x] Create Common Styles
+      - [x] Create Variables.uss
+        - [x] Define color variables
+        - [x] Define spacing variables
+        - [x] Define font variables
+        - [x] Define animation variables
+      - [x] Create Typography.uss
+        - [x] Define heading styles
+        - [x] Define body text styles
+        - [x] Define button text styles
+        - [x] Define label styles
+      - [x] Create Colors.uss
+        - [x] Define primary colors
+        - [x] Define background colors
+        - [x] Define text colors
+        - [x] Define state colors (hover, active, disabled)
+      - [x] Create Animations.uss
+        - [x] Define transition animations
+        - [x] Define hover effects
+        - [x] Define click effects
+        - [x] Define win animations
     - [ ] Create Screen-Specific Styles
-      - [ ] Login.uss
-        - [ ] Style login container
-        - [ ] Style input field
-        - [ ] Style connect button
-        - [ ] Style status message
+      - [x] Login.uss
+        - [x] Style login container
+        - [x] Style input field
+        - [x] Style connect button
+        - [x] Style status message
       - [ ] Lobby.uss
         - [ ] Style room list
         - [ ] Style room card
@@ -145,13 +148,13 @@
 **User Story**: As a player, I want to enter my name and connect to the game server so I can access the lobby where I can see available rooms, create new ones, or join existing ones.
 
 **Acceptance Criteria**:
-- [ ] Create Login.uxml layout
-- [ ] Implement Login.uss styles
-- [ ] Add name input field
-- [ ] Add connect button
-- [ ] Add status message label
-- [ ] Add scene transition to lobby
-- [ ] Test: Scene should show all UI elements and transition to lobby on successful connection
+- [x] Create Login.uxml layout
+- [x] Implement Login.uss styles
+- [x] Add name input field
+- [x] Add connect button
+- [x] Add status message label
+- [x] Add scene transition to lobby
+- [x] Test: Scene should show all UI elements and transition to lobby on successful connection
 
 **Test Steps**:
 1. Enter Play Mode
@@ -185,11 +188,11 @@
 **User Story**: As a player, I want to connect to the game server with my name so I can access the lobby.
 
 **Acceptance Criteria**:
-- [ ] Implement NetworkManager (Shared Mode)
-- [ ] Add Photon Fusion initialization (Shared Mode)
-- [ ] Connect login UI to network
-- [ ] Add error handling
-- [ ] Test: Should connect to Photon and show success/error messages
+- [x] Implement NetworkManager (Shared Mode)
+- [x] Add Photon Fusion initialization (Shared Mode)
+- [x] Connect login UI to network
+- [x] Add error handling
+- [x] Test: Should connect to Photon and show success/error messages
 
 **Test Steps**:
 1. Enter Play Mode

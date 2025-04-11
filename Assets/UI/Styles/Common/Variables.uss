@@ -1,0 +1,50 @@
+/* Color Variables */
+:root {
+    /* Primary Colors */
+    --color-background: #1A1A1A;
+    --color-primary: #FFD700;
+    --color-secondary: #FFFFFF;
+    --color-accent: #FF6B6B;
+
+    /* Text Colors */
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #CCCCCC;
+    --color-text-accent: #FFD700;
+
+    /* Interactive States */
+    --color-button-default: #FFD700;
+    --color-button-hover: #FFE44D;
+    --color-button-active: #FFC000;
+    --color-button-disabled: #666666;
+}
+
+/* Spacing Variables */
+:root {
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 40px;
+}
+
+/* Font Variables */
+:root {
+    --font-family-primary: Arial;
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    --font-size-xxl: 36px;
+    --font-weight-regular: 400;
+    --font-weight-bold: 700;
+}
+
+/* Animation Variables */
+:root {
+    --transition-fast: 0.2s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
+    --animation-pulse: pulse 1s infinite;
+} 

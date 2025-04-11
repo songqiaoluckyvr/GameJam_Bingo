@@ -5,17 +5,17 @@
 - [x] Create new Unity project
 - [x] Set up Photon Fusion 2.0.5 (Shared Mode)
 - [ ] Configure UI Toolkit
-  - [ ] Install UI Toolkit package
+  - [x] Install UI Toolkit package
   - [ ] Create UI Document for each scene
-    - [ ] Login Scene
-      - [ ] Create Login.uxml in UI/Layouts/Screens
-      - [ ] Add container with flex layout
-      - [ ] Add title "BINGO" (centered)
-      - [ ] Add name input field
-      - [ ] Add connect button
-      - [ ] Add status message label
-      - [ ] Link Login.uss style sheet
-      - [ ] Test: Verify layout in UI Builder
+    - [x] Login Scene
+      - [x] Create Login.uxml in UI/Layouts/Screens
+      - [x] Add container with flex layout
+      - [x] Add title "BINGO" (centered)
+      - [x] Add name input field
+      - [x] Add connect button
+      - [x] Add status message label
+      - [x] Link Login.uss style sheet
+      - [x] Test: Verify layout in UI Builder
     - [ ] Lobby Scene
       - [ ] Create Lobby.uxml in UI/Layouts/Screens
       - [ ] Add two-column layout

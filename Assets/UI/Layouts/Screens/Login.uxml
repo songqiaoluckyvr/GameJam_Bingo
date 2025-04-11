@@ -1,0 +1,9 @@
+<UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" schemaLocation="UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd">
+    <Style src="project://database/Assets/UI/Styles/Login.uss?fileID=7433441132597879392&amp;guid=03728051ddc51014094e5b49c7a1a587&amp;type=3#Login" />
+    <VisualElement class="login-container">
+        <Label text="BINGO" class="login-title" />
+        <TextField label="Player Name" name="playerName" class="login-input" />
+        <Button text="Connect" name="connectButton" class="login-button" />
+        <Label name="statusMessage" class="login-status" />
+    </VisualElement>
+</UXML>

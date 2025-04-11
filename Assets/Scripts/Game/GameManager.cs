@@ -9,7 +9,7 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private float numberAnnounceInterval = 10f;
     
     [Header("Debug")]
-    [SerializeField] private bool enableDebugLogging = true;
+    [SerializeField] private bool enableDebugLogging = false;
     
     [Header("References")]
     [SerializeField] private BingoNumberGenerator numberGenerator;
@@ -66,8 +66,8 @@ public class GameManager : NetworkBehaviour
     {
         if (!Object.HasStateAuthority) return;
         
-        // Log game state for debugging
-        if (enableDebugLogging && Runner.Tick % 300 == 0) // Log every ~5 seconds (at 60 ticks/second)
+        // Reduce frequency of game state logging to every ~30 seconds
+        if (enableDebugLogging && Runner.Tick % 1800 == 0) 
         {
             LogDebug($"Game State - IsStarted: {IsGameStarted}, CurrentNumber: {CurrentNumber}");
             LogDebug($"Timer Status: {(NumberAnnounceTimer.Expired(Runner) ? "Expired" : $"Time left: {NumberAnnounceTimer.RemainingTime(Runner)?.ToString() ?? "unknown"}")}");
@@ -168,8 +168,8 @@ public class GameManager : NetworkBehaviour
         
         LogDebug($"Total numbers drawn so far: {drawnNumbersSet.Count}");
         
-        // Log all drawn numbers for debugging (not too often)
-        if (announcementCount % 5 == 0)
+        // Log all drawn numbers for debugging (reduced frequency to every 10 draws)
+        if (announcementCount % 10 == 0 && enableDebugLogging)
         {
             string allNumbers = string.Join(", ", drawnNumbersSet);
             LogDebug($"All drawn numbers: {allNumbers}");
@@ -209,6 +209,69 @@ public class GameManager : NetworkBehaviour
         else
         {
             LogDebug("StartGame called but doesn't have state authority");
+        }
+    }
+    
+    // Method to reset the game for a new round
+    public void ResetGame()
+    {
+        if (!Object.HasStateAuthority) return;
+        
+        LogDebug("Resetting game for a new round");
+        
+        // Reset game state
+        CurrentNumber = 0;
+        drawnNumbersSet.Clear();
+        
+        // Reset the number generator
+        if (numberGenerator != null)
+        {
+            numberGenerator.ResetNumberGenerator();
+            LogDebug("Reset BingoNumberGenerator");
+        }
+        else
+        {
+            LogError("BingoNumberGenerator reference is missing during reset!");
+        }
+        
+        // Reset the number announcer
+        if (numberAnnouncer != null)
+        {
+            numberAnnouncer.ResetDrawnNumbers();
+            LogDebug("Reset BingoNumberAnnouncer");
+        }
+        else
+        {
+            LogWarning("BingoNumberAnnouncer reference is missing during reset!");
+        }
+        
+        // Generate new bingo cards for all players
+        RPC_GenerateBingoCards();
+        LogDebug("Generated new bingo cards for all players");
+        
+        // Reset the announcement timer
+        NumberAnnounceTimer = TickTimer.CreateFromSeconds(Runner, numberAnnounceInterval);
+        LogDebug($"Reset number announcement timer: {numberAnnounceInterval} seconds");
+        
+        // Call RPC to ensure all clients reset their state
+        RPC_ResetGame();
+    }
+    
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_ResetGame()
+    {
+        LogDebug("Received RPC to reset game");
+        
+        // Reset local game state
+        CurrentNumber = 0;
+        drawnNumbersSet.Clear();
+        
+        // Reset UI if available
+        if (gameplayUI != null)
+        {
+            // Update the UI to show game reset
+            gameplayUI.ResetBingoCard();
+            LogDebug("Reset GameplayUI");
         }
     }
     

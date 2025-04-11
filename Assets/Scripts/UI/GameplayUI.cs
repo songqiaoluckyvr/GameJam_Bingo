@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fusion;
 using BrilliantBingo.Code.Infrastructure.Generators;
+using System.Collections;
 
 public class GameplayUI : NetworkBehaviour
 {
@@ -19,6 +20,9 @@ public class GameplayUI : NetworkBehaviour
     private bool[] markedNumbers;
     private List<int> drawnNumbers = new List<int>();
     private Button[,] gridCells;
+    
+    // Track the current round winner
+    private int currentWinnerPlayerId = -1;
 
     [Networked] private int CurrentNumber { get; set; }
 
@@ -181,15 +185,12 @@ public class GameplayUI : NetworkBehaviour
         // Don't allow re-marking already marked cells
         if (markedNumbers[index])
         {
-            Debug.Log($"Cell already marked: [{index/5},{index%5}] with value {localBingoCard[index]}");
             return;
         }
         
         int row = index / 5;
         int col = index % 5;
         int cellValue = localBingoCard[index];
-        
-        Debug.Log($"Player clicked cell: [{row},{col}] with value {cellValue}, CurrentNumber: {CurrentNumber}");
         
         // Allow marking if it matches current number or if it's in drawn numbers list
         if (cellValue == CurrentNumber || (drawnNumbers != null && drawnNumbers.Contains(cellValue)))
@@ -204,16 +205,6 @@ public class GameplayUI : NetworkBehaviour
             // This will permanently prevent the button from being clicked again this game
             gridCells[row,col].SetEnabled(false);
             
-            Debug.Log($"<color=green>MARKED</color>: Player marked cell [{row},{col}] with value {cellValue}");
-            
-            // For network games, notify other players this cell was marked
-            if (Object.HasInputAuthority && Runner != null)
-            {
-                // Comment out or implement RPC as needed
-                // RPC_MarkCell(index);
-            }
-            
-            // Check for bingo after marking
             if (CheckForBingo())
             {
                 Debug.Log($"<color=yellow>BINGO CONDITION MET!</color> After marking {cellValue}");
@@ -222,8 +213,6 @@ public class GameplayUI : NetworkBehaviour
         }
         else
         {
-            Debug.Log($"<color=red>INVALID MARK ATTEMPT</color>: Cell value {cellValue} does not match current number {CurrentNumber} and is not in drawn numbers list");
-            
             // Optional: provide feedback that this number hasn't been called yet
             gridCells[row,col].AddToClassList("invalid-selection");
             gridCells[row,col].schedule.Execute(() => 
@@ -338,7 +327,9 @@ public class GameplayUI : NetworkBehaviour
         // Update the display with leading zeros
         currentNumberLabel.text = number.ToString("00");
         
-        Debug.Log($"<color=cyan>NEW NUMBER</color>: Changed from {previousNumber} to {number}");
+        if (previousNumber != number) {
+            Debug.Log($"<color=cyan>NEW NUMBER</color>: Changed from {previousNumber} to {number}");
+        }
         
         // Add to drawn numbers list if not already there
         if (!drawnNumbers.Contains(number))
@@ -371,17 +362,21 @@ public class GameplayUI : NetworkBehaviour
         }
     }
 
-    // For debugging/testing - call this to manually mark a test cell
+    // Debug method for testing
     public void DebugMarkCell(int row, int col)
     {
-        if (row >= 0 && row < 5 && col >= 0 && col < 5)
-        {
-            int index = row * 5 + col;
-            markedNumbers[index] = true;
-            gridCells[row,col].AddToClassList("marked");
-            gridCells[row,col].SetEnabled(false);
-            Debug.Log($"Debug marked cell [{row},{col}] with value {localBingoCard[index]}");
-        }
+        if (row < 0 || row >= 5 || col < 0 || col >= 5) return;
+        
+        int index = row * 5 + col;
+        if (index < 0 || index >= 25) return;
+        
+        // Don't remark already marked cells
+        if (markedNumbers[index]) return;
+        
+        // Mark the cell
+        markedNumbers[index] = true;
+        gridCells[row, col].AddToClassList("marked");
+        gridCells[row, col].SetEnabled(false);
     }
 
     private void UpdateNumberHistory()
@@ -505,6 +500,7 @@ public class GameplayUI : NetworkBehaviour
         // Reset bingo button state
         bingoButton.RemoveFromClassList("bingo-win");
         bingoButton.RemoveFromClassList("bingo-invalid");
+        bingoButton.RemoveFromClassList("bingo-available");
         
         // Clear drawn numbers
         drawnNumbers.Clear();
@@ -530,6 +526,19 @@ public class GameplayUI : NetworkBehaviour
         if (localBingoCard != null && localBingoCard.Length == 25)
         {
             UpdateBingoGrid();
+        }
+    }
+
+    // This method restarts the number drawing process for the next round
+    public void RestartNumberDrawing()
+    {
+        if (Object.HasStateAuthority && numberGenerator != null)
+        {
+            // Reset the number generator for the next round
+            numberGenerator.ResetNumberGenerator();
+            
+            // If there's an automatic drawing system, restart it here
+            // Example: StartCoroutine(AutomaticNumberDrawing());
         }
     }
 
@@ -586,6 +595,9 @@ public class GameplayUI : NetworkBehaviour
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void RPC_NotifyBingoWin(int winnerPlayerId)
     {
+        // Store the winner ID for this round
+        currentWinnerPlayerId = winnerPlayerId;
+        
         if (Object.HasInputAuthority && Runner.LocalPlayer.PlayerId == winnerPlayerId)
         {
             // Local player who won - already showing their win UI
@@ -601,5 +613,129 @@ public class GameplayUI : NetworkBehaviour
         
         // If you have more player information, you could show the winner's name here
         Debug.Log($"Player {winnerPlayerId} got BINGO!");
+
+        // Start game over sequence with a delay
+        float gameOverDelay = 5.0f; // 5 seconds to celebrate before resetting
+        StartCoroutine(GameOverSequence(gameOverDelay));
+    }
+
+    private System.Collections.IEnumerator GameOverSequence(float delay)
+    {
+        // Wait for celebration time
+        yield return new WaitForSeconds(delay);
+        
+        // If this client is the host (has state authority), initiate game reset
+        if (Object.HasStateAuthority)
+        {
+            // You could track and update game statistics here (wins, rounds played, etc.)
+            UpdateGameStatistics();
+            
+            // Find the GameManager and reset the game
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null)
+            {
+                Debug.Log("Resetting game via GameManager");
+                gameManager.ResetGame();
+            }
+            else
+            {
+                Debug.LogWarning("GameManager not found, using fallback reset mechanism");
+                // Fallback to our own reset mechanism
+                RPC_InitiateGameReset();
+            }
+        }
+    }
+
+    private void UpdateGameStatistics()
+    {
+        // This method would update any game statistics like rounds played, player wins, etc.
+        // Could be expanded for more robust game tracking
+        
+        // Example: Increment rounds played counter (not implemented)
+        // roundsPlayed++;
+        
+        // Update player scores based on winner
+        if (currentWinnerPlayerId >= 0)
+        {
+            Debug.Log($"Updating score for player {currentWinnerPlayerId}");
+            // Implementation would depend on how scores are tracked
+            // Example: playerScores[currentWinnerPlayerId]++;
+            
+            // Reset the winner ID for the next round
+            currentWinnerPlayerId = -1;
+        }
+        
+        // Log that a round was completed
+        Debug.Log("Round complete - updating game statistics");
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_InitiateGameReset()
+    {
+        // Show reset notification with countdown
+        StartCoroutine(ShowNewRoundCountdown());
+        
+        // Reset the UI state first
+        ResetBingoCard();
+        
+        // Clear number history
+        drawnNumbers.Clear();
+        UpdateNumberHistory();
+        
+        // If state authority, generate a new card and restart number drawing
+        if (Object.HasStateAuthority)
+        {
+            // Restart the number drawing process
+            RestartNumberDrawing();
+            
+            // Generate new bingo card
+            if (numberGenerator != null)
+            {
+                localBingoCard = numberGenerator.GenerateBingoCard();
+                RPC_UpdateBingoCard(localBingoCard);
+            }
+            else
+            {
+                Debug.LogError("BingoNumberGenerator reference is missing!");
+            }
+        }
+        
+        // Re-enable card interaction
+        EnableCardInteraction();
+    }
+    
+    private System.Collections.IEnumerator ShowNewRoundCountdown()
+    {
+        // Show initial message
+        ShowPopup("New Round Starting in 3...", true);
+        yield return new WaitForSeconds(1.0f);
+        
+        ShowPopup("New Round Starting in 2...", true);
+        yield return new WaitForSeconds(1.0f);
+        
+        ShowPopup("New Round Starting in 1...", true);
+        yield return new WaitForSeconds(1.0f);
+        
+        ShowPopup("New Round Started!", true);
+    }
+    
+    private void EnableCardInteraction()
+    {
+        // Enable interaction on all cells except the free space and already marked cells
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                int index = i * 5 + j;
+                
+                // Skip the free space (center) and already marked cells
+                if (index == 12) continue; // Free space
+                
+                if (gridCells[i,j] != null && !markedNumbers[index])
+                {
+                    gridCells[i,j].SetEnabled(true);
+                }
+            }
+        }
     }
 }

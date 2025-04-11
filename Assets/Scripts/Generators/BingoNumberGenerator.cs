@@ -101,7 +101,6 @@ namespace BrilliantBingo.Code.Infrastructure.Generators
                     usedNumbers[number] = true;
                     card[row * 5 + col] = number;
                 }
-
             }
 
             // Print the bingo card in a grid format

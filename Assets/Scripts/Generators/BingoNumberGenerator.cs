@@ -10,10 +10,13 @@ namespace BrilliantBingo.Code.Infrastructure.Generators
         private System.Random rng;
         [Networked] private int NetworkSeed { get; set; }
         
+        // Store the numbers in a networked array
         [Networked, Capacity(75)]
-        private NetworkArray<int> GeneratedNumbers { get; }
+        private NetworkArray<int> NumberPool { get; }
         
-        private int currentNumberIndex = 0;
+        // Track available numbers count
+        [Networked] private int AvailableNumbersCount { get; set; }
+        
         private const int MAX_NUMBERS = 75;
 
         public override void Spawned()
@@ -24,8 +27,8 @@ namespace BrilliantBingo.Code.Infrastructure.Generators
                 NetworkSeed = UnityEngine.Random.Range(0, int.MaxValue);
                 Debug.Log($"Host generated seed: {NetworkSeed}");
                 
-                // Generate all numbers upfront
-                GenerateAllNumbers();
+                // Initialize the number pool
+                InitializeNumberPool();
             }
 
             InitializeRNG();
@@ -39,32 +42,38 @@ namespace BrilliantBingo.Code.Infrastructure.Generators
                 NetworkSeed = (int)DateTime.Now.Ticks;
             }
             rng = new System.Random(NetworkSeed);
-            Debug.Log($"Initialized RNG with seed: {NetworkSeed}");
         }
 
-        private void GenerateAllNumbers()
+        // Initialize the pool with all numbers 1-75 in shuffled order
+        private void InitializeNumberPool()
         {
-            var numbers = new List<int>();
-            var usedNumbers = new HashSet<int>();
-
-            // Generate all possible numbers (1-75)
-            while (numbers.Count < MAX_NUMBERS)
+            // Create a local list for shuffling
+            List<int> allNumbers = new List<int>(MAX_NUMBERS);
+            for (int i = 1; i <= MAX_NUMBERS; i++)
             {
-                int number = rng.Next(1, MAX_NUMBERS + 1);
-                if (usedNumbers.Add(number))
-                {
-                    numbers.Add(number);
-                }
+                allNumbers.Add(i);
             }
-
+            
+            // Shuffle the numbers using Fisher-Yates algorithm
+            for (int i = allNumbers.Count - 1; i > 0; i--)
+            {
+                int j = rng.Next(0, i + 1);
+                // Swap elements
+                int temp = allNumbers[i];
+                allNumbers[i] = allNumbers[j];
+                allNumbers[j] = temp;
+            }
+            
             // Store in NetworkArray
-            for (int i = 0; i < numbers.Count; i++)
+            for (int i = 0; i < allNumbers.Count; i++)
             {
-                GeneratedNumbers.Set(i, numbers[i]);
+                NumberPool.Set(i, allNumbers[i]);
             }
-
-            string numbersStr = string.Join(", ", numbers);
-            Debug.Log($"Generated all numbers: {numbersStr}");
+            
+            // Set available numbers count
+            AvailableNumbersCount = MAX_NUMBERS;
+            
+            Debug.Log($"Number pool initialized with {AvailableNumbersCount} numbers");
         }
 
         public int[] GenerateBingoCard()
@@ -102,34 +111,44 @@ namespace BrilliantBingo.Code.Infrastructure.Generators
                     card[row * 5 + col] = number;
                 }
             }
-
-            // Print the bingo card in a grid format
-            string gridDebug = "\nBINGO Card Grid:\n";
-            gridDebug += "B    I    N    G    O\n";
-            gridDebug += "---------------------\n";
-            for (int row = 0; row < 5; row++)
-            {
-                for (int col = 0; col < 5; col++)
-                {
-                    int number = card[row * 5 + col];
-                    gridDebug += number == 0 ? "FREE".PadRight(5) : number.ToString().PadRight(5);
-                }
-                gridDebug += "\n";
-            }
-            Debug.Log(gridDebug);
             
             return card;
         }
 
+        // Get the next number from the pool
         public int GetNextNumber()
         {
-            if (currentNumberIndex >= MAX_NUMBERS)
+            if (AvailableNumbersCount <= 0)
             {
-                Debug.LogWarning("No more numbers available!");
+                Debug.LogWarning("No more numbers available in the pool!");
                 return -1;
             }
-
-            return GeneratedNumbers.Get(currentNumberIndex++);
+            
+            // Get the next number from the pool (last available index)
+            int nextNumber = NumberPool.Get(AvailableNumbersCount - 1);
+            
+            // Decrement available count
+            AvailableNumbersCount--;
+            
+            Debug.Log($"Drew number {nextNumber} from pool. {AvailableNumbersCount} numbers remain.");
+            return nextNumber;
+        }
+        
+        // Reset the number generator to start a new round of bingo
+        public void ResetNumberGenerator()
+        {
+            if (Object.HasStateAuthority)
+            {
+                // Generate a new seed for the next round
+                NetworkSeed = UnityEngine.Random.Range(0, int.MaxValue);
+                Debug.Log($"Host generated new seed for next round: {NetworkSeed}");
+                
+                // Re-initialize RNG with new seed
+                InitializeRNG();
+                
+                // Refill and reshuffle the number pool
+                InitializeNumberPool();
+            }
         }
     }
 } 

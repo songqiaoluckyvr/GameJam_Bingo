@@ -13,6 +13,7 @@ public class GameplayUI : NetworkBehaviour
     private Button bingoButton;
     private VisualElement playerList;
     private VisualElement numberHistory;
+    private VisualElement popupNotification;
     [SerializeField] private BingoNumberGenerator numberGenerator;
     private int[] localBingoCard;
     private bool[] markedNumbers;
@@ -22,6 +23,11 @@ public class GameplayUI : NetworkBehaviour
     [Networked] private int CurrentNumber { get; set; }
 
     private void Awake()
+    {
+        InitializeUI();
+    }
+
+    private void InitializeUI()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
         markedNumbers = new bool[25];
@@ -33,6 +39,40 @@ public class GameplayUI : NetworkBehaviour
         bingoButton = root.Q<Button>("bingo-button");
         playerList = root.Q<VisualElement>("player-list");
         numberHistory = root.Q<VisualElement>("number-history");
+        
+        // Create popup notification element if it doesn't exist
+        popupNotification = root.Q<VisualElement>("popup-notification");
+        if (popupNotification == null)
+        {
+            // Create popup container
+            popupNotification = new VisualElement();
+            popupNotification.name = "popup-notification";
+            popupNotification.AddToClassList("popup-notification");
+            popupNotification.style.visibility = Visibility.Hidden;
+            
+            // Add a centered message label
+            var messageLabel = new Label();
+            messageLabel.name = "popup-message";
+            messageLabel.AddToClassList("popup-message");
+            popupNotification.Add(messageLabel);
+            
+            // Add popup to the root
+            root.Add(popupNotification);
+        }
+
+        // Apply additional styling to number history
+        if (numberHistory != null)
+        {
+            numberHistory.style.flexDirection = FlexDirection.Column;
+            numberHistory.style.paddingTop = 5;
+            numberHistory.style.paddingBottom = 5;
+        }
+
+        // Check if any key elements are missing
+        if (currentNumberLabel == null)
+        {
+            Debug.LogError("Failed to find current-number label!");
+        }
 
         // Initialize grid cells
         for (int i = 0; i < 5; i++)
@@ -202,14 +242,16 @@ public class GameplayUI : NetworkBehaviour
             // Visual indication that bingo is valid
             bingoButton.AddToClassList("bingo-win");
             
+            // Show valid bingo popup
+            ShowPopup("BINGO!", true);
+            
             // Disable further marking 
             DisableCardInteraction();
             
-            // TODO: Implement network win condition notification
-            if (Object.HasStateAuthority)
+            // Notify other players about the win
+            if (Runner != null && Object.HasInputAuthority)
             {
-                // Host would notify all players about the win
-                // RPC_NotifyBingoWin(Object.InputAuthority);
+                RPC_NotifyBingoWin(Runner.LocalPlayer.PlayerId);
             }
         }
         else
@@ -218,6 +260,10 @@ public class GameplayUI : NetworkBehaviour
             
             // Visual indication that bingo claim is invalid
             bingoButton.AddToClassList("bingo-invalid");
+            
+            // Show invalid bingo popup
+            ShowPopup("Bad Bingo", false);
+            
             bingoButton.schedule.Execute(() => 
             {
                 bingoButton.RemoveFromClassList("bingo-invalid");
@@ -268,24 +314,42 @@ public class GameplayUI : NetworkBehaviour
     // Called to update current drawn number from network
     public void UpdateCurrentNumber(int number)
     {
+        if (number <= 0)
+        {
+            Debug.LogWarning($"Received invalid number: {number}, ignoring update");
+            return;
+        }
+        
         int previousNumber = CurrentNumber;
         CurrentNumber = number;
+        
+        // Ensure the UI element is valid
+        if (currentNumberLabel == null)
+        {
+            Debug.LogError("currentNumberLabel is null in GameplayUI!");
+            currentNumberLabel = root?.Q<Label>("current-number");
+            if (currentNumberLabel == null)
+            {
+                Debug.LogError("Still couldn't find current-number label!");
+                return;
+            }
+        }
+        
+        // Update the display with leading zeros
         currentNumberLabel.text = number.ToString("00");
         
         Debug.Log($"<color=cyan>NEW NUMBER</color>: Changed from {previousNumber} to {number}");
         
-        if (Object.HasStateAuthority)
+        // Add to drawn numbers list if not already there
+        if (!drawnNumbers.Contains(number))
         {
-            if (!drawnNumbers.Contains(number))
-            {
-                drawnNumbers.Add(number);
-                UpdateNumberHistory();
-                Debug.Log($"Added {number} to drawn numbers list. Total drawn: {drawnNumbers.Count}");
-            }
-            else
-            {
-                Debug.Log($"Number {number} already in drawn numbers list");
-            }
+            drawnNumbers.Add(number);
+            UpdateNumberHistory();
+            Debug.Log($"Added {number} to drawn numbers list. Total drawn: {drawnNumbers.Count}");
+        }
+        else
+        {
+            Debug.Log($"Number {number} already in drawn numbers list");
         }
     }
 
@@ -323,11 +387,85 @@ public class GameplayUI : NetworkBehaviour
     private void UpdateNumberHistory()
     {
         numberHistory.Clear();
-        foreach (int number in drawnNumbers.Reverse<int>())
+        
+        // Create rows of 3 numbers each
+        int numbersPerRow = 3;
+        List<int> reversedNumbers = new List<int>(drawnNumbers);
+        reversedNumbers.Reverse();
+        
+        for (int i = 0; i < reversedNumbers.Count; i += numbersPerRow)
         {
-            Label numberLabel = new Label(number.ToString());
-            numberLabel.AddToClassList("history-number");
-            numberHistory.Add(numberLabel);
+            // Create a horizontal container for each row
+            VisualElement rowContainer = new VisualElement();
+            rowContainer.AddToClassList("history-row");
+            rowContainer.style.flexDirection = FlexDirection.Row;
+            rowContainer.style.justifyContent = Justify.SpaceBetween;
+            rowContainer.style.width = new StyleLength(new Length(100, LengthUnit.Percent));
+            rowContainer.style.marginBottom = 5;
+            
+            // Add up to 3 numbers in this row
+            int numbersInThisRow = Mathf.Min(numbersPerRow, reversedNumbers.Count - i);
+            for (int j = 0; j < numbersInThisRow; j++)
+            {
+                int numberIndex = i + j;
+                if (numberIndex < reversedNumbers.Count)
+                {
+                    int number = reversedNumbers[numberIndex];
+                    
+                    // Determine the column letter based on number range
+                    string columnLetter = GetColumnLetterForNumber(number);
+                    
+                    // Create a container for each number
+                    VisualElement numberContainer = new VisualElement();
+                    numberContainer.style.flexGrow = 1;
+                    numberContainer.style.flexDirection = FlexDirection.Row;
+                    numberContainer.style.alignItems = Align.Center;
+                    numberContainer.style.justifyContent = Justify.Center;
+                    
+                    // Create column letter label
+                    Label letterLabel = new Label(columnLetter);
+                    letterLabel.AddToClassList("history-letter");
+                    letterLabel.style.fontSize = 14;
+                    letterLabel.style.marginRight = 3;
+                    letterLabel.style.color = GetColumnColor(columnLetter);
+                    
+                    // Create number label
+                    Label numberLabel = new Label(number.ToString("00"));
+                    numberLabel.AddToClassList("history-number");
+                    
+                    // Add both to container
+                    numberContainer.Add(letterLabel);
+                    numberContainer.Add(numberLabel);
+                    
+                    // Add to row
+                    rowContainer.Add(numberContainer);
+                }
+            }
+            
+            numberHistory.Add(rowContainer);
+        }
+    }
+    
+    private string GetColumnLetterForNumber(int number)
+    {
+        if (number >= 1 && number <= 15) return "B";
+        if (number >= 16 && number <= 30) return "I";
+        if (number >= 31 && number <= 45) return "N";
+        if (number >= 46 && number <= 60) return "G";
+        if (number >= 61 && number <= 75) return "O";
+        return "";
+    }
+    
+    private Color GetColumnColor(string column)
+    {
+        switch (column)
+        {
+            case "B": return new Color(1f, 0.85f, 0f); // Gold
+            case "I": return new Color(0.56f, 0.93f, 0.56f); // Light Green
+            case "N": return new Color(0.87f, 0.63f, 0.87f); // Light Purple
+            case "G": return new Color(1f, 0.71f, 0.76f); // Light Pink
+            case "O": return new Color(1f, 0.42f, 0.42f); // Coral Red
+            default: return Color.white;
         }
     }
 
@@ -375,5 +513,93 @@ public class GameplayUI : NetworkBehaviour
         
         // Update number history display
         UpdateNumberHistory();
+    }
+
+    // Call this method to reset the UI state after a scene load or other events
+    public void Reset()
+    {
+        InitializeUI();
+        
+        // If CurrentNumber is valid, display it
+        if (CurrentNumber > 0)
+        {
+            UpdateCurrentNumber(CurrentNumber);
+        }
+        
+        // If we have a bingo card, display it
+        if (localBingoCard != null && localBingoCard.Length == 25)
+        {
+            UpdateBingoGrid();
+        }
+    }
+
+    // Shows a popup notification message
+    private void ShowPopup(string message, bool isSuccess)
+    {
+        if (popupNotification == null) return;
+        
+        // Get the message label
+        var messageLabel = popupNotification.Q<Label>("popup-message");
+        if (messageLabel != null)
+        {
+            messageLabel.text = message;
+        }
+        
+        // Apply appropriate styling based on success/failure
+        popupNotification.RemoveFromClassList("popup-success");
+        popupNotification.RemoveFromClassList("popup-error");
+        popupNotification.AddToClassList(isSuccess ? "popup-success" : "popup-error");
+        
+        // Make the popup visible
+        popupNotification.style.visibility = Visibility.Visible;
+        popupNotification.style.opacity = 1;
+        
+        // Animate popup
+        popupNotification.experimental.animation.Scale(1.2f, 200).OnCompleted(() => {
+            popupNotification.experimental.animation.Scale(1f, 200);
+        });
+        
+        // Auto-hide the popup after delay (longer for success)
+        popupNotification.schedule.Execute(() => {
+            // Fade out by manually animating opacity
+            const int steps = 10;
+            const float duration = 500f; // milliseconds
+            float stepTime = duration / steps;
+            
+            for (int i = 0; i < steps; i++)
+            {
+                float opacity = 1 - ((float)(i + 1) / steps);
+                popupNotification.schedule.Execute(() => {
+                    popupNotification.style.opacity = opacity;
+                }).StartingIn((int)(i * stepTime));
+            }
+            
+            // Hide after animation completes
+            popupNotification.schedule.Execute(() => {
+                popupNotification.style.visibility = Visibility.Hidden;
+                popupNotification.style.opacity = 1;
+            }).StartingIn((int)duration);
+        }).StartingIn(isSuccess ? 3000 : 2000);
+    }
+
+    // Notify all players that someone got a valid bingo
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_NotifyBingoWin(int winnerPlayerId)
+    {
+        if (Object.HasInputAuthority && Runner.LocalPlayer.PlayerId == winnerPlayerId)
+        {
+            // Local player who won - already showing their win UI
+            return;
+        }
+        
+        // Show a notification that another player won
+        string winnerName = "Player " + winnerPlayerId;
+        ShowPopup(winnerName + " got BINGO!", true);
+        
+        // Disable interaction for other players
+        DisableCardInteraction();
+        
+        // If you have more player information, you could show the winner's name here
+        Debug.Log($"Player {winnerPlayerId} got BINGO!");
     }
 }

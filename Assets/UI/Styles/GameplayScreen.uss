@@ -198,7 +198,7 @@
 }
 
 .number-history-container {
-    width: 200px;
+    width: 250px;
     margin-left: 20px;
     flex-shrink: 0;
 }
@@ -216,6 +216,7 @@
     border-radius: 8px;
     padding: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    max-height: 500px;
 }
 
 .history-number {
@@ -224,6 +225,23 @@
     -unity-font-style: bold;
     margin: 2px 0;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    padding: 5px 8px;
+}
+
+.history-letter {
+    font-size: 14px;
+    -unity-font-style: bold;
+    margin-right: 3px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.history-row {
+    width: 100%;
+    margin-bottom: 6px;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .player-card {
@@ -304,4 +322,39 @@
     flex-grow: 1;
     padding: 10px;
     background-color: #FFFFFF;
+}
+
+/* Popup Notification Styles */
+.popup-notification {
+    position: absolute;
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    top: 40%;
+    left: 50%;
+    transform-origin: center center;
+    margin-left: -150px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.popup-success {
+    background-color: #32CD32;
+    border: 3px solid #228B22;
+}
+
+.popup-error {
+    background-color: #FF6347;
+    border: 3px solid #B22222;
+}
+
+.popup-message {
+    color: white;
+    font-size: 32px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 } 

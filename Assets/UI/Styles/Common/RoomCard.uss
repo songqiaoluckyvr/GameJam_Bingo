@@ -1,0 +1,58 @@
+/* Room Card */
+.room-card {
+    background-color: #2A2A2A;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s;
+}
+
+.room-card:hover {
+    border-color: #FFD700;
+    border-width: 1px;
+}
+
+/* Room Info */
+.room-info {
+    flex-direction: column;
+}
+
+.room-name {
+    color: #FFFFFF;
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin-bottom: 5px;
+}
+
+.room-creator {
+    color: #CCCCCC;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.player-count {
+    color: #CCCCCC;
+    font-size: 14px;
+}
+
+/* Join Button */
+.join-button {
+    background-color: #FFD700;
+    color: #1A1A1A;
+    border-radius: 4px;
+    padding: 8px 16px;
+    -unity-font-style: bold;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.join-button:hover {
+    background-color: #FFE44D;
+}
+
+.join-button:active {
+    background-color: #FFC000;
+} 

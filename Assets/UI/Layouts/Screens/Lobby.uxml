@@ -1,0 +1,14 @@
+<UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" schemaLocation="UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/Screens/Lobby.uss?fileID=7433441132597879392&amp;guid=2cf6cfcc74a77ae458ea7a44ae5b76d1&amp;type=3#Lobby" />
+    <VisualElement name="lobby-container" class="lobby-container">
+        <VisualElement name="room-list-container" class="room-list-container">
+            <Label text="Available Rooms" class="section-title" />
+            <ListView name="room-list" class="room-list" />
+        </VisualElement>
+        <VisualElement name="create-room-container" class="create-room-container">
+            <Label text="Create New Room" class="section-title" />
+            <TextField name="room-name-input" label="Room Name" class="room-name-input" />
+            <Button name="create-room-button" text="Create Room" class="create-room-button" />
+        </VisualElement>
+    </VisualElement>
+</UXML>

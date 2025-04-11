@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="UnityEngine.UIElements" xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" xsi:schemaLocation="UnityEngine.UIElements ../../../UIElementsSchema/UnityEngine.UIElements.xsd">
+    <Style src="project://database/Assets/UI/Styles/Common/RoomCard.uss?fileID=0&guid=00000000000000000000000000000000&type=3#RoomCard" />
+    
+    <VisualElement name="room-card" class="room-card">
+        <VisualElement name="room-info" class="room-info">
+            <Label name="room-name" class="room-name"/>
+            <Label name="room-creator" class="room-creator"/>
+            <Label name="player-count" class="player-count"/>
+        </VisualElement>
+        <Button name="join-button" text="Join" class="join-button"/>
+    </VisualElement>
+</UXML> 
